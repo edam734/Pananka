@@ -89,7 +89,7 @@ if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
         diff_y = mouse_y - mouse_previous_y;
         
         if abs(diff_y) &gt; abs(diff_x) {
-            neighbour = instance_position(self.x, self.y + sign(diff_y)*self.sprite_height, oBlock);
+            neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+1), oBlock);
             show_debug_message("neighbour em YY = " + string(neighbour));
             if neighbour {
                 dir = directionEnum.YY;
@@ -98,7 +98,7 @@ if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
             }
         }
         else {
-            neighbour = instance_position(self.x + sign(diff_x)*self.sprite_width, self.y, oBlock);
+            neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, oBlock);
             show_debug_message("neighbour em XX = " + string(neighbour));
             if neighbour {
                 dir = directionEnum.XX;
@@ -153,7 +153,7 @@ if dir != directionEnum.NONE {
             // then execute automated action of the neighbour block
             if abs(self.x - player_start_x) &gt; self.sprite_width / 2 {
                 with neighbour {
-            show_debug_message("eu proprio 'with' = " + string(self.id));
+            show_debug_message("eu proprio 'with' x= " + string(self.id));
                     if state != blockstate.ACTION {
                         state = blockstate.ACTION;
                     }

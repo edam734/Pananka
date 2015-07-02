@@ -33,7 +33,7 @@ event_inherited();
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -50,11 +50,9 @@ event_inherited();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_self();
-
-if state == blockstate.ACTION {
-    draw_set_alpha(0.5);
-}
+            <string>if state == blockstate.ACTION {
+    image_alpha = 0.5;
+}  
 </string>
           </argument>
         </arguments>
