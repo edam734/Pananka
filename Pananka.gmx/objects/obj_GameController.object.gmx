@@ -32,7 +32,7 @@ SKIN_DEFAULT;
  
 
 //SKIN_DEFAULT = obj_Yellow.sprite_index;
-SKIN_DEFAULT = 0;
+SKIN_DEFAULT = spr_Red;
 show_debug_message("SKIN_DEFAULT = " + string(SKIN_DEFAULT));
 
 </string>

@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -49,8 +49,8 @@ dir = directionEnum.NONE;
 
 mouse_previous_x = -1;
 mouse_previous_y = -1;
-player_start_x = x;
-player_start_y = y;
+last_fit_x = x;
+last_fit_y = y;
 </string>
           </argument>
         </arguments>
@@ -76,8 +76,6 @@ player_start_y = y;
             <string>if state == playerstate.STATIC {
     mouse_previous_x = mouse_x;
     mouse_previous_y = mouse_y;
-    player_start_x = x;
-    player_start_y = y;
     
     state = playerstate.MOVING;
 }
@@ -93,77 +91,98 @@ if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
             show_debug_message("neighbour em YY = " + string(neighbour));
             if neighbour {
                 dir = directionEnum.YY;
-                if diff_y &gt; MAX_SPEED then diff_y = MAX_SPEED;
-                self.y = self.y + diff_y;
+                if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
+                self.y += diff_y;
             }
         }
         else {
             neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, oBlock);
-            show_debug_message("neighbour em XX = " + string(neighbour));
+            instance_create(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, obj_Point);
             if neighbour {
+                show_debug_message("neighbour em XX = " + string(neighbour));
+                show_debug_message("neighbour_XX = " + string(neighbour) + " x = " + string(neighbour.x) + " y = " + string(neighbour.y));
                 dir = directionEnum.XX;
-                if diff_x &gt; MAX_SPEED then diff_x = MAX_SPEED;
-                self.x = self.x + diff_x;
+                if abs(diff_x) &gt; MAX_SPEED then diff_x = sign(diff_x)*MAX_SPEED;
+                self.x += diff_x;
             }
         }
+        mouse_previous_x = mouse_x;
+        mouse_previous_y = mouse_y;
     }
-    mouse_previous_x = mouse_x;
-    mouse_previous_y = mouse_y;
-}
-
-if player_start_x == x &amp;&amp; player_start_y == y {
-    dir = directionEnum.NONE;
-}
-
-/**
- * Assert start coordenates to a position multiple of 96 
- */
-if (x == player_start_x + self.sprite_width or y == player_start_y + self.sprite_height) {
-    player_start_x = x;
-    player_start_y = y;
-    dir = directionEnum.NONE;
 }
 
 if dir != directionEnum.NONE {
     if (mouse_previous_x != mouse_x or mouse_previous_y != mouse_y) {
         diff_x = mouse_x - mouse_previous_x;
         diff_y = mouse_y - mouse_previous_y;
-            show_debug_message("eu proprio = " + string(self.id));
-            show_debug_message("neighbour eh = " + string(neighbour));
+        
+        var new_neighbour = noone;
         
         if dir == directionEnum.YY {
-            if diff_y &gt; MAX_SPEED then diff_y = MAX_SPEED;
-            self.y = self.y + diff_y;
+            if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
             
-            // if movement in yy surpass the half of the block player, 
-            // then execute automated action of the neighbour block
-            if abs(self.y - player_start_y) &gt; self.sprite_height / 2 {
-                with neighbour {
-                    if state != blockstate.ACTION {
-                        state = blockstate.ACTION;
+            self.y += diff_y;
+            
+            if abs(self.y - last_fit_y) &gt; self.sprite_height / 2 {       
+                new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+sign(diff_y)), oBlock);
+                instance_create(self.x, self.y + sign(diff_y)*(self.sprite_height/2+sign(diff_y)), obj_Point); // draw
+                
+                if (new_neighbour != neighbour) {
+                    if !new_neighbour {
+                        neighbour = new_neighbour;
+                        self.y = last_fit_y + sign(diff_y)*self.sprite_height;
+                        dir = directionEnum.NONE;
                     }
                 }
             }
         }
-        else {
-            if diff_x &gt; MAX_SPEED then diff_x = MAX_SPEED;
+        else if dir == directionEnum.XX {
+            if abs(diff_x) &gt; MAX_SPEED 
+            {
+                show_debug_message("!!!! diff_x = " + string(diff_x) + " nova diff é = " + string(sign(diff_x)*MAX_SPEED));
+                diff_x = sign(diff_x)*MAX_SPEED;
+            }
+            
             self.x = self.x + diff_x;
-            
-            // if movement in xx surpass the half of the block player, 
-            // then execute automated action of the neighbour block
-            if abs(self.x - player_start_x) &gt; self.sprite_width / 2 {
-                with neighbour {
-            show_debug_message("eu proprio 'with' x= " + string(self.id));
-                    if state != blockstate.ACTION {
-                        state = blockstate.ACTION;
+                
+            if abs(self.x - last_fit_x) &gt; self.sprite_width / 2 {
+                new_neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, oBlock);
+                instance_create(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_Point); // draw
+                
+                if (new_neighbour != neighbour) {
+                    if !new_neighbour {
+                        neighbour = new_neighbour;
+                        self.x = last_fit_x + sign(diff_x)*self.sprite_width;
+                        dir = directionEnum.NONE;
                     }
                 }
             }
         }
+        mouse_previous_x = mouse_x;
+        mouse_previous_y = mouse_y;
     }
-    mouse_previous_x = mouse_x;
-    mouse_previous_y = mouse_y;
 }
+
+/**
+ * Assert last fit coordenates to a position multiple of 96 
+ * where the player can fit (the last where he passed)
+ */
+if x &gt;= last_fit_x + self.sprite_width {
+    show_debug_message("last_fit_x changed form = " + string(last_fit_x) + " to " + string(last_fit_x + self.sprite_width));
+    last_fit_x += self.sprite_width;
+    }
+if x &lt;= last_fit_x - self.sprite_width {
+    show_debug_message("last_fit_x changed form = " + string(last_fit_x) + " to " + string(last_fit_x + self.sprite_width));
+    last_fit_x -= self.sprite_width;
+    }
+if y &gt;= last_fit_y + self.sprite_height {
+    show_debug_message("last_fit_x changed form = " + string(last_fit_y) + " to " + string(last_fit_y + self.sprite_height));
+    last_fit_y += self.sprite_height;
+    }
+if y &lt;= last_fit_y - self.sprite_height {
+    show_debug_message("last_fit_x changed form = " + string(last_fit_y) + " to " + string(last_fit_y + self.sprite_height));
+    last_fit_y -= self.sprite_height;
+    }
 </string>
           </argument>
         </arguments>
