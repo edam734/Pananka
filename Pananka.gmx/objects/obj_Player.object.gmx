@@ -29,7 +29,7 @@
 
 sprite_index = SKIN_DEFAULT;
 neighbour = -1;
-MAX_SPEED = 12;
+MAX_SPEED = 32;
 
 enum playerstate {
     STATIC, 
@@ -56,7 +56,7 @@ last_fit_y = y;
         </arguments>
       </action>
     </event>
-    <event eventtype="6" enumb="0">
+    <event eventtype="6" enumb="50">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -73,13 +73,7 @@ last_fit_y = y;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if state == playerstate.STATIC {
-    mouse_previous_x = mouse_x;
-    mouse_previous_y = mouse_y;
-    
-    state = playerstate.MOVING;
-}
-
+            <string>///Move
 if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
     if (mouse_previous_x != mouse_x or mouse_previous_y != mouse_y) {
         // see which direction
@@ -110,7 +104,6 @@ if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
         mouse_previous_y = mouse_y;
     }
 }
-
 if dir != directionEnum.NONE {
     if (mouse_previous_x != mouse_x or mouse_previous_y != mouse_y) {
         diff_x = mouse_x - mouse_previous_x;
@@ -121,20 +114,32 @@ if dir != directionEnum.NONE {
         if dir == directionEnum.YY {
             if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
             
-            self.y += diff_y;
             
-            if abs(self.y - last_fit_y) &gt; self.sprite_height / 2 {       
-                new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+sign(diff_y)), oBlock);
-                instance_create(self.x, self.y + sign(diff_y)*(self.sprite_height/2+sign(diff_y)), obj_Point); // draw
+            
+            //if abs(self.y - last_fit_y) &gt; self.sprite_height / 2 {       
+                new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), oBlock);
+                instance_create(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), obj_Point); // draw
                 
                 if (new_neighbour != neighbour) {
                     if !new_neighbour {
                         neighbour = new_neighbour;
-                        self.y = last_fit_y + sign(diff_y)*self.sprite_height;
                         dir = directionEnum.NONE;
+                        
+                        if ((sign(diff_y) &lt; 0 and last_fit_y &gt; y) or (sign(diff_y) &gt; 0 and last_fit_y &lt; y)) {
+                            self.y = last_fit_y + sign(diff_y)*self.sprite_height;
+                        }
+                        else if ((sign(diff_y) &lt; 0 and last_fit_y &lt;= y) or (sign(diff_y) &gt; 0 and last_fit_y &gt;= y)) {
+                            self.y = last_fit_y;
+                        }
+                    }
+                    else {
+                        self.y += diff_y;
                     }
                 }
-            }
+                else {
+                    self.y += diff_y;
+                }
+            //}
         }
         else if dir == directionEnum.XX {
             if abs(diff_x) &gt; MAX_SPEED 
@@ -143,20 +148,33 @@ if dir != directionEnum.NONE {
                 diff_x = sign(diff_x)*MAX_SPEED;
             }
             
-            self.x = self.x + diff_x;
-                
-            if abs(self.x - last_fit_x) &gt; self.sprite_width / 2 {
+            //if abs(self.x - last_fit_x) &gt; self.sprite_width / 2 {
                 new_neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, oBlock);
+                show_debug_message("new_neighbour = " + string(new_neighbour));
                 instance_create(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_Point); // draw
                 
                 if (new_neighbour != neighbour) {
                     if !new_neighbour {
                         neighbour = new_neighbour;
-                        self.x = last_fit_x + sign(diff_x)*self.sprite_width;
                         dir = directionEnum.NONE;
+                        
+                        if ((sign(diff_x) &lt; 0 and last_fit_x &gt; x) or (sign(diff_x) &gt; 0 and last_fit_x &lt; x)) {
+                            show_debug_message("AVANÇA! &gt; (sign(diff_x) &lt; 0 and last_fit_x &gt; x) " + string(sign(diff_x) &lt; 0 and last_fit_x &gt; x) + " (sign(diff_x) &gt; 0 and last_fit_x &lt; x) " + string(sign(diff_x) &gt; 0 and last_fit_x &lt; x));
+                            self.x = last_fit_x + sign(diff_x)*self.sprite_width;
+                        }
+                        else if ((sign(diff_x) &gt; 0 and last_fit_x &gt;= x) or (sign(diff_x) &lt; 0 and last_fit_x &lt;= x)) {
+                            show_debug_message("FICA! &gt; (sign(diff_x) &gt; 0 and last_fit_x &gt;= x) " + string(sign(diff_x) &gt; 0 and last_fit_x &gt;= x) + " (sign(diff_x) &lt; 0 and last_fit_x &lt;= x) " + string(sign(diff_x) &lt; 0 and last_fit_x &lt;= x));
+                            self.x = last_fit_x;
+                        }
+                    }
+                    else {
+                        self.x += diff_x;
                     }
                 }
-            }
+                else {
+                    self.x += diff_x;
+                }
+            //}
         }
         mouse_previous_x = mouse_x;
         mouse_previous_y = mouse_y;
@@ -168,21 +186,81 @@ if dir != directionEnum.NONE {
  * where the player can fit (the last where he passed)
  */
 if x &gt;= last_fit_x + self.sprite_width {
-    show_debug_message("last_fit_x changed form = " + string(last_fit_x) + " to " + string(last_fit_x + self.sprite_width));
+    show_debug_message(" X = " + string(x));
+    show_debug_message("+last_fit_x changed form = " + string(last_fit_x));
     last_fit_x += self.sprite_width;
+    show_debug_message(" to " + string(last_fit_x));
     }
 if x &lt;= last_fit_x - self.sprite_width {
-    show_debug_message("last_fit_x changed form = " + string(last_fit_x) + " to " + string(last_fit_x + self.sprite_width));
+    show_debug_message(" X = " + string(x));
+    show_debug_message("-last_fit_x changed form = " + string(last_fit_x));
     last_fit_x -= self.sprite_width;
+    show_debug_message(" to " + string(last_fit_x));
     }
 if y &gt;= last_fit_y + self.sprite_height {
-    show_debug_message("last_fit_x changed form = " + string(last_fit_y) + " to " + string(last_fit_y + self.sprite_height));
+    show_debug_message("+last_fit_y changed form = " + string(last_fit_y) + " to " + string(last_fit_y + self.sprite_height));
     last_fit_y += self.sprite_height;
     }
 if y &lt;= last_fit_y - self.sprite_height {
-    show_debug_message("last_fit_x changed form = " + string(last_fit_y) + " to " + string(last_fit_y + self.sprite_height));
+    show_debug_message("-last_fit_y changed form = " + string(last_fit_y) + " to " + string(last_fit_y - self.sprite_height));
     last_fit_y -= self.sprite_height;
     }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="7">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Fit
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Select
+/*
+ * Select this block for movement
+ */
+if state == playerstate.STATIC {
+    mouse_previous_x = mouse_x;
+    mouse_previous_y = mouse_y;
+    
+    state = playerstate.MOVING;
+    show_debug_message("PRESSIONADO!!!")
+}
 </string>
           </argument>
         </arguments>
