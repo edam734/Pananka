@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>-1</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>oBlock</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -27,6 +27,8 @@
             <kind>1</kind>
             <string>///INIT PLAYER
 
+autoDestroy = false;
+
 sprite_index = SKIN_DEFAULT;
 neighbour = -1;
 MAX_SPEED = 32;
@@ -46,8 +48,13 @@ enum directionEnum {
 dir = directionEnum.NONE;
 
 goFit = false;
-tryFitCount = 0;
 backSpeed = 12;
+/*
+inspectColor[0] = -1;
+inspectColor[1] = -1;
+inspectColor[2] = -1;
+inspectColor[3] = -1;*/
+inspectColor = ds_list_create();
 
 /* temp coordenates */
 
@@ -86,6 +93,30 @@ global.mouseActive = true;
       </action>
     </event>
     <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Destroy test
+if autoDestroy {
+    image_alpha = 0.5;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -318,22 +349,20 @@ if dir != directionEnum.NONE {
  * where the player can fit (the last where he passed)
  */
 if x &gt;= last_fit_x + self.sprite_width {
-    show_debug_message("+last_fit_x changed form = " + string(last_fit_x));
     last_fit_x += self.sprite_width;
-    show_debug_message(" to " + string(last_fit_x));
+    global.inspectBlocksToDestroy = true;
     }
 if x &lt;= last_fit_x - self.sprite_width {
-    show_debug_message("-last_fit_x changed form = " + string(last_fit_x));
     last_fit_x -= self.sprite_width;
-    show_debug_message(" to " + string(last_fit_x));
+    global.inspectBlocksToDestroy = true;
     }
 if y &gt;= last_fit_y + self.sprite_height {
-    show_debug_message("+last_fit_y changed form = " + string(last_fit_y) + " to " + string(last_fit_y + self.sprite_height));
     last_fit_y += self.sprite_height;
+    global.inspectBlocksToDestroy = true;
     }
 if y &lt;= last_fit_y - self.sprite_height {
-    show_debug_message("-last_fit_y changed form = " + string(last_fit_y) + " to " + string(last_fit_y - self.sprite_height));
     last_fit_y -= self.sprite_height;
+    global.inspectBlocksToDestroy = true;
     }
 </string>
           </argument>
@@ -412,9 +441,7 @@ if y &lt;= last_fit_y - self.sprite_height {
 if state == playerstate.STATIC {
     mouse_previous_x = mouse_x;
     mouse_previous_y = mouse_y;
-    
     state = playerstate.MOVING;
-    show_debug_message("PRESSIONADO!!!")
 }
 </string>
           </argument>

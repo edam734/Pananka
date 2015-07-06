@@ -14,7 +14,7 @@
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\script0.gml</script>
+    <script>scripts\inspectBlock.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_GameController</object>
@@ -22,6 +22,7 @@
     <object>objects\oBlock</object>
     <object>objects\obj_Player</object>
     <object>objects\obj_Yellow</object>
+    <object>objects\obj_Red</object>
     <object>objects\obj_NextRoom</object>
     <object>objects\obj_Point</object>
   </objects>
