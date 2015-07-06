@@ -45,6 +45,10 @@ enum directionEnum {
 }
 dir = directionEnum.NONE;
 
+goFit = false;
+tryFitCount = 0;
+backSpeed = 12;
+
 /* temp coordenates */
 
 mouse_previous_x = -1;
@@ -56,7 +60,155 @@ last_fit_y = y;
         </arguments>
       </action>
     </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>state = playerstate.STATIC;
+dir = directionEnum.NONE;
+global.mouseActive = true;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Fit Automatically
+if (goFit) {
+    if (dir == directionEnum.YY) {
+        if (last_fit_y &gt; y) {
+            y += backSpeed;
+            if (abs(y - last_fit_y) &lt; backSpeed) {
+                y = last_fit_y;
+            }
+        }
+        else if (last_fit_y &lt; y){
+            y -= backSpeed;
+            if (abs(y - last_fit_y) &lt; backSpeed) {
+                y = last_fit_y;
+            }
+        }
+    }
+    else if (dir == directionEnum.XX) {
+        if (last_fit_x &gt; x) {
+            x += backSpeed;
+            if (abs(x - last_fit_x) &lt; backSpeed) {
+                x = last_fit_x;
+            }
+        }
+        else if (last_fit_x &lt; x){
+            x -= backSpeed;
+            if (abs(x - last_fit_x) &lt; backSpeed) {
+                x = last_fit_x;
+            }
+        }
+    }
+    /*else {
+        y = last_fit_y;
+        x = last_fit_x;
+    }*/
+    
+    if (last_fit_y == y and last_fit_x == x) {
+        goFit = false;
+        alarm[0] = 5;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="56">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Go Fit
+if state == playerstate.MOVING {
+    global.mouseActive = false;
+    goFit = true;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="6" enumb="50">
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>global.mouseActive</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -82,7 +234,6 @@ if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
         
         if abs(diff_y) &gt; abs(diff_x) {
             neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+1), oBlock);
-            show_debug_message("neighbour em YY = " + string(neighbour));
             if neighbour {
                 dir = directionEnum.YY;
                 if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
@@ -93,8 +244,6 @@ if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
             neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, oBlock);
             instance_create(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, obj_Point);
             if neighbour {
-                show_debug_message("neighbour em XX = " + string(neighbour));
-                show_debug_message("neighbour_XX = " + string(neighbour) + " x = " + string(neighbour.x) + " y = " + string(neighbour.y));
                 dir = directionEnum.XX;
                 if abs(diff_x) &gt; MAX_SPEED then diff_x = sign(diff_x)*MAX_SPEED;
                 self.x += diff_x;
@@ -113,68 +262,55 @@ if dir != directionEnum.NONE {
         
         if dir == directionEnum.YY {
             if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
-            
-            
-            
-            //if abs(self.y - last_fit_y) &gt; self.sprite_height / 2 {       
-                new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), oBlock);
-                instance_create(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), obj_Point); // draw
+              
+            new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), oBlock);
+            instance_create(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), obj_Point); // draw
                 
-                if (new_neighbour != neighbour) {
-                    if !new_neighbour {
-                        neighbour = new_neighbour;
-                        dir = directionEnum.NONE;
+            if (new_neighbour != neighbour) {
+                if !new_neighbour {
                         
-                        if ((sign(diff_y) &lt; 0 and last_fit_y &gt; y) or (sign(diff_y) &gt; 0 and last_fit_y &lt; y)) {
-                            self.y = last_fit_y + sign(diff_y)*self.sprite_height;
-                        }
-                        else if ((sign(diff_y) &lt; 0 and last_fit_y &lt;= y) or (sign(diff_y) &gt; 0 and last_fit_y &gt;= y)) {
-                            self.y = last_fit_y;
-                        }
+                    if ((sign(diff_y) &lt; 0 and last_fit_y &gt; y) or (sign(diff_y) &gt; 0 and last_fit_y &lt; y)) {
+                        self.y = last_fit_y + sign(diff_y)*self.sprite_height;
                     }
-                    else {
-                        self.y += diff_y;
+                    else if ((sign(diff_y) &lt; 0 and last_fit_y &lt;= y) or (sign(diff_y) &gt; 0 and last_fit_y &gt;= y)) {
+                        self.y = last_fit_y;
                     }
+                    neighbour = new_neighbour;
+                    dir = directionEnum.NONE;
                 }
                 else {
                     self.y += diff_y;
                 }
-            //}
+            }
+            else {
+                self.y += diff_y;
+            }
         }
         else if dir == directionEnum.XX {
-            if abs(diff_x) &gt; MAX_SPEED 
-            {
-                show_debug_message("!!!! diff_x = " + string(diff_x) + " nova diff é = " + string(sign(diff_x)*MAX_SPEED));
-                diff_x = sign(diff_x)*MAX_SPEED;
-            }
+            if abs(diff_x) &gt; MAX_SPEED then diff_x = sign(diff_x)*MAX_SPEED;
             
-            //if abs(self.x - last_fit_x) &gt; self.sprite_width / 2 {
-                new_neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, oBlock);
-                show_debug_message("new_neighbour = " + string(new_neighbour));
-                instance_create(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_Point); // draw
+            new_neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, oBlock);
+            instance_create(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_Point); // draw
                 
-                if (new_neighbour != neighbour) {
-                    if !new_neighbour {
-                        neighbour = new_neighbour;
-                        dir = directionEnum.NONE;
+            if (new_neighbour != neighbour) {
+                if !new_neighbour {
                         
-                        if ((sign(diff_x) &lt; 0 and last_fit_x &gt; x) or (sign(diff_x) &gt; 0 and last_fit_x &lt; x)) {
-                            show_debug_message("AVANÇA! &gt; (sign(diff_x) &lt; 0 and last_fit_x &gt; x) " + string(sign(diff_x) &lt; 0 and last_fit_x &gt; x) + " (sign(diff_x) &gt; 0 and last_fit_x &lt; x) " + string(sign(diff_x) &gt; 0 and last_fit_x &lt; x));
-                            self.x = last_fit_x + sign(diff_x)*self.sprite_width;
-                        }
-                        else if ((sign(diff_x) &gt; 0 and last_fit_x &gt;= x) or (sign(diff_x) &lt; 0 and last_fit_x &lt;= x)) {
-                            show_debug_message("FICA! &gt; (sign(diff_x) &gt; 0 and last_fit_x &gt;= x) " + string(sign(diff_x) &gt; 0 and last_fit_x &gt;= x) + " (sign(diff_x) &lt; 0 and last_fit_x &lt;= x) " + string(sign(diff_x) &lt; 0 and last_fit_x &lt;= x));
-                            self.x = last_fit_x;
-                        }
+                    if ((sign(diff_x) &lt; 0 and last_fit_x &gt; x) or (sign(diff_x) &gt; 0 and last_fit_x &lt; x)) {
+                        self.x = last_fit_x + sign(diff_x)*self.sprite_width;
                     }
-                    else {
-                        self.x += diff_x;
+                    else if ((sign(diff_x) &gt; 0 and last_fit_x &gt;= x) or (sign(diff_x) &lt; 0 and last_fit_x &lt;= x)) {
+                        self.x = last_fit_x;
                     }
+                    neighbour = new_neighbour;
+                    dir = directionEnum.NONE;
                 }
                 else {
                     self.x += diff_x;
                 }
-            //}
+            }
+            else {
+                self.x += diff_x;
+            }
         }
         mouse_previous_x = mouse_x;
         mouse_previous_y = mouse_y;
@@ -186,13 +322,11 @@ if dir != directionEnum.NONE {
  * where the player can fit (the last where he passed)
  */
 if x &gt;= last_fit_x + self.sprite_width {
-    show_debug_message(" X = " + string(x));
     show_debug_message("+last_fit_x changed form = " + string(last_fit_x));
     last_fit_x += self.sprite_width;
     show_debug_message(" to " + string(last_fit_x));
     }
 if x &lt;= last_fit_x - self.sprite_width {
-    show_debug_message(" X = " + string(x));
     show_debug_message("-last_fit_x changed form = " + string(last_fit_x));
     last_fit_x -= self.sprite_width;
     show_debug_message(" to " + string(last_fit_x));
@@ -209,31 +343,56 @@ if y &lt;= last_fit_y - self.sprite_height {
           </argument>
         </arguments>
       </action>
-    </event>
-    <event eventtype="6" enumb="7">
       <action>
         <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
+        <id>424</id>
+        <kind>2</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
         <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+    </event>
+    <event eventtype="6" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
         <codestring></codestring>
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
           <argument>
-            <kind>1</kind>
-            <string>///Fit
-</string>
+            <kind>0</kind>
+            <string>global.mouseActive</string>
           </argument>
         </arguments>
       </action>
-    </event>
-    <event eventtype="6" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -264,6 +423,20 @@ if state == playerstate.STATIC {
 </string>
           </argument>
         </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
       </action>
     </event>
   </events>
