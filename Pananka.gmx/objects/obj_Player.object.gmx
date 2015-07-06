@@ -107,29 +107,25 @@ if (goFit) {
     if (dir == directionEnum.YY) {
         if (last_fit_y &gt; y) {
             y += backSpeed;
-            if (abs(y - last_fit_y) &lt; backSpeed) {
-                y = last_fit_y;
-            }
         }
         else if (last_fit_y &lt; y){
             y -= backSpeed;
-            if (abs(y - last_fit_y) &lt; backSpeed) {
-                y = last_fit_y;
-            }
+        }
+        
+        if (abs(y - last_fit_y) &lt; backSpeed) {
+            y = last_fit_y;
         }
     }
     else if (dir == directionEnum.XX) {
         if (last_fit_x &gt; x) {
             x += backSpeed;
-            if (abs(x - last_fit_x) &lt; backSpeed) {
-                x = last_fit_x;
-            }
         }
         else if (last_fit_x &lt; x){
             x -= backSpeed;
-            if (abs(x - last_fit_x) &lt; backSpeed) {
-                x = last_fit_x;
-            }
+        }
+        
+        if (abs(x - last_fit_x) &lt; backSpeed) {
+            x = last_fit_x;
         }
     }
     /*else {
