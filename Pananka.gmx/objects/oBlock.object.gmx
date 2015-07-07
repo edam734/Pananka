@@ -42,12 +42,6 @@ enum directionBlockEnum {
 }
 dirBlock = directionBlockEnum.NONE;
 
-/*
-inspectColor[0] = -1;
-inspectColor[1] = -1;
-inspectColor[2] = -1;
-inspectColor[3] = -1;
-*/
 inspectColor = ds_list_create();
 
 ETR = 32 /* max speed of obj_Player */ + 1;

@@ -49,11 +49,7 @@ dir = directionEnum.NONE;
 
 goFit = false;
 backSpeed = 12;
-/*
-inspectColor[0] = -1;
-inspectColor[1] = -1;
-inspectColor[2] = -1;
-inspectColor[3] = -1;*/
+
 inspectColor = ds_list_create();
 
 /* temp coordenates */
@@ -62,6 +58,29 @@ mouse_previous_x = -1;
 mouse_previous_y = -1;
 last_fit_x = x;
 last_fit_y = y;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>global.inspectBlocksToDestroy = true;
 </string>
           </argument>
         </arguments>
@@ -344,25 +363,47 @@ if dir != directionEnum.NONE {
     }
 }
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Last Fit Arrangement
+
 /**
  * Assert last fit coordenates to a position multiple of 96 
  * where the player can fit (the last where he passed)
  */
 if x &gt;= last_fit_x + self.sprite_width {
     last_fit_x += self.sprite_width;
-    global.inspectBlocksToDestroy = true;
+    alarm[1] = 2;
     }
 if x &lt;= last_fit_x - self.sprite_width {
     last_fit_x -= self.sprite_width;
-    global.inspectBlocksToDestroy = true;
+    alarm[1] = 2;
     }
 if y &gt;= last_fit_y + self.sprite_height {
     last_fit_y += self.sprite_height;
-    global.inspectBlocksToDestroy = true;
+    alarm[1] = 2;
     }
 if y &lt;= last_fit_y - self.sprite_height {
     last_fit_y -= self.sprite_height;
-    global.inspectBlocksToDestroy = true;
+    alarm[1] = 2;
     }
 </string>
           </argument>
