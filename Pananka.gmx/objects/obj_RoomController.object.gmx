@@ -26,10 +26,35 @@
           <argument>
             <kind>1</kind>
             <string>globalvar
-mouseActive, inspectBlocksToDestroy;
+mouseActive, inspectBlocksToDestroy, gravityy;
 
 mouseActive = true;
 inspectBlocksToDestroy = false;
+inspectBlocksFallen = false;
+gravityy = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>inspectBlocksFallen = true;
 </string>
           </argument>
         </arguments>
@@ -86,7 +111,7 @@ inspectBlocksToDestroy = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Inspect Blocks
+            <string>///Inspect Blocks Sprites
 
 var add = false;
 var resultInspection = 
@@ -96,16 +121,137 @@ var resultInspection =
         inspectBlock(instance_position(obj_Player.x, obj_Player.y - obj_Player.sprite_height, oBlock), obj_Player.sprite_index, add);
 
 show_debug_message("resultInspection = " + string(resultInspection));
+if resultInspection { 
+    gravityy = true;
+    mouseActive = false;
+    if (object_exists(obj_Player)) {
+        with obj_Player {
+            if state == playerstate.MOVING {
+                goFit = true;
+            }
+            else 
+            {
+                // give time to inspect if all blocks fallen down
+                obj_RoomController.alarm[0] = 2; 
+            }
+        }
+    }
+    else 
+        {
+        obj_RoomController.alarm[0] = 2; 
+        }
+}
+else {
+    //Unsolid all blocks
+    for (var i = 0; i &lt; instance_number(oBlock); i++) {
+        var block = instance_find(oBlock, i);
+        block.solid = false;
+    }
+    gravityy = false;
+    mouseActive = true;
+}
 
 //Reset inspectColor list from all blocks
 for (var i = 0; i &lt; instance_number(oBlock); i++)
    {
-   var block = instance_find(oBlock,i);
+   var block = instance_find(oBlock, i);
    ds_list_clear(block.inspectColor);
    }
 
 inspectBlocksToDestroy = false;
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>inspectBlocksFallen</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Inspect Blocks Fallen
+var found = false;
+var i;
+i = 0;
+while (i &lt; instance_number(oBlock))
+{
+    var block = instance_find(oBlock, i);
+   
+    if (block.vspeed != 0) {
+        found = true;
+        break;
+    }
+    i++;
+}
+
+/*
+ * if didn't found any block still falling 
+ * then do inspectBlocksToDestroy again
+ */
+if (!found)
+    {
+    inspectBlocksFallen = false;
+    inspectBlocksToDestroy = true;
+    }
 </string>
           </argument>
         </arguments>
@@ -145,7 +291,9 @@ inspectBlocksToDestroy = false;
             <string>var underlying_object = instance_position(mouse_x, mouse_y, all);
 if underlying_object {
     with underlying_object {
-        image_alpha = 0.5;
+        show_debug_message("solid = " + string(solid));
+        show_debug_message("gravityy = " + string(gravityy));
+        //image_alpha = 0.5;
     }
 }
 show_debug_message("underlying_object = " + string(underlying_object));

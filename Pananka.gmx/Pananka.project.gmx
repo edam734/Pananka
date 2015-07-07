@@ -10,6 +10,7 @@
     <sprite>sprites\spr_Yellow</sprite>
     <sprite>sprites\sprPlayButton</sprite>
     <sprite>sprites\sPoint</sprite>
+    <sprite>sprites\spr_Brick</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -25,6 +26,7 @@
     <object>objects\obj_Red</object>
     <object>objects\obj_NextRoom</object>
     <object>objects\obj_Point</object>
+    <object>objects\obj_Brick</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\firstRoom</room>

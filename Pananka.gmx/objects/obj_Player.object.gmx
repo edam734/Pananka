@@ -46,6 +46,7 @@ enum directionEnum {
     NONE
 }
 dir = directionEnum.NONE;
+sig = 0;
 
 goFit = false;
 backSpeed = 12;
@@ -105,7 +106,15 @@ last_fit_y = y;
             <kind>1</kind>
             <string>state = playerstate.STATIC;
 dir = directionEnum.NONE;
-global.mouseActive = true;
+
+if (global.gravityy) {
+    //Activate alarm to see if all blocks have fallen
+    obj_RoomController.alarm[0] = 2; 
+}
+else 
+    {
+    global.mouseActive = true;
+    }
 </string>
           </argument>
         </arguments>
@@ -285,6 +294,7 @@ if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
                 if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
                 self.y += diff_y;
             }
+            sig = sign(diff_y);
         }
         else {
             neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, oBlock);
@@ -294,6 +304,7 @@ if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
                 if abs(diff_x) &gt; MAX_SPEED then diff_x = sign(diff_x)*MAX_SPEED;
                 self.x += diff_x;
             }
+            sig = sign(diff_x); 
         }
         mouse_previous_x = mouse_x;
         mouse_previous_y = mouse_y;
@@ -307,6 +318,9 @@ if dir != directionEnum.NONE {
         var new_neighbour = noone;
         
         if dir == directionEnum.YY {
+            
+            //if sig == sign(diff_y) 
+            //{
             if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
               
             new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), oBlock);
@@ -331,8 +345,12 @@ if dir != directionEnum.NONE {
             else {
                 self.y += diff_y;
             }
+            //}
         }
         else if dir == directionEnum.XX {
+            
+            //if sig == sign(diff_x) 
+            //{
             if abs(diff_x) &gt; MAX_SPEED then diff_x = sign(diff_x)*MAX_SPEED;
             
             new_neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, oBlock);
@@ -357,6 +375,7 @@ if dir != directionEnum.NONE {
             else {
                 self.x += diff_x;
             }
+            //}
         }
         mouse_previous_x = mouse_x;
         mouse_previous_y = mouse_y;

@@ -37,5 +37,3 @@ if (block) {
 else {
     return add;
 }
-
-
