@@ -96,9 +96,13 @@ var resultInspection =
         inspectBlock(instance_position(obj_Player.x, obj_Player.y - obj_Player.sprite_height, oBlock), obj_Player.sprite_index, add);
 
 show_debug_message("resultInspection = " + string(resultInspection));
-// reset all lists
 
-
+//Reset inspectColor list from all blocks
+for (var i = 0; i &lt; instance_number(oBlock); i++)
+   {
+   var block = instance_find(oBlock,i);
+   ds_list_clear(block.inspectColor);
+   }
 
 inspectBlocksToDestroy = false;
 
