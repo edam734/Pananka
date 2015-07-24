@@ -50,8 +50,10 @@ sig = 0;
 
 goFit = false;
 backSpeed = 12;
+countStep = 0;
 
-inspectColor = ds_list_create();
+//inspectColor = ds_list_create();
+inspectedColor = false;
 
 /* temp coordenates */
 
@@ -81,7 +83,8 @@ last_fit_y = y;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.inspectBlocksToDestroy = true;
+            <string>//global.inspectBlocksToDestroy = true;
+global.inspectMouse = true;
 </string>
           </argument>
         </arguments>
@@ -106,7 +109,14 @@ last_fit_y = y;
             <kind>1</kind>
             <string>state = playerstate.STATIC;
 dir = directionEnum.NONE;
+show_debug_message("O player está em modo STATIC.");
 
+if (!global.hasBlocksSameColor) {
+    global.mouseActive = true;
+}
+
+/*
+show_debug_message("alarm[0] in obj_Player");
 if (global.gravityy) {
     //Activate alarm to see if all blocks have fallen
     obj_RoomController.alarm[0] = 2; 
@@ -114,7 +124,7 @@ if (global.gravityy) {
 else 
     {
     global.mouseActive = true;
-    }
+    }*/
 </string>
           </argument>
         </arguments>
@@ -165,27 +175,37 @@ if autoDestroy {
 if (goFit) {
     if (dir == directionEnum.YY) {
         if (last_fit_y &gt; y) {
-            y += backSpeed;
+            if (abs(y - last_fit_y) &lt; backSpeed) {
+                y = last_fit_y;
+            } else {
+                y += backSpeed;
+            }
         }
         else if (last_fit_y &lt; y){
-            y -= backSpeed;
+            if (abs(y - last_fit_y) &lt; backSpeed) {
+                y = last_fit_y;
+            } else {
+                y -= backSpeed;
+            }
         }
         
-        if (abs(y - last_fit_y) &lt; backSpeed) {
-            y = last_fit_y;
-        }
     }
     else if (dir == directionEnum.XX) {
         if (last_fit_x &gt; x) {
-            x += backSpeed;
+            if (abs(x - last_fit_x) &lt; backSpeed) {
+                x = last_fit_x;
+            } else {
+                x += backSpeed;
+            }
         }
         else if (last_fit_x &lt; x){
-            x -= backSpeed;
+            if (abs(x - last_fit_x) &lt; backSpeed) {
+                x = last_fit_x;
+            } else {
+                x -= backSpeed;
+            }
         }
         
-        if (abs(x - last_fit_x) &lt; backSpeed) {
-            x = last_fit_x;
-        }
     }
     /*else {
         y = last_fit_y;
@@ -193,13 +213,167 @@ if (goFit) {
     }*/
     
     if (last_fit_y == y and last_fit_x == x) {
+        show_debug_message("Parou o fit do player e vai mudar o seu estado para STATIC.");
         goFit = false;
         alarm[0] = 5;
     }
 }
+
 </string>
           </argument>
         </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>inspectMouse</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>-1</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>inspectedColor</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Inspect Neighbours Color
+var rightBlock = instance_position(self.x + self.sprite_width, self.y, oBlock);
+var leftBlock = instance_position(self.x - self.sprite_width, self.y, oBlock);
+var bottomBlock = instance_position(self.x, self.y + self.sprite_height, oBlock);
+var topBlock = instance_position(self.x, self.y - self.sprite_height, oBlock);
+
+if ( rightBlock )
+{
+    if (self.sprite_index == rightBlock.sprite_index) {
+        global.hasBlocksSameColor = true;
+        self.autoDestroy = true;
+    }
+}
+if ( leftBlock )
+{
+    if (self.sprite_index == leftBlock.sprite_index) {
+        global.hasBlocksSameColor = true;
+        self.autoDestroy = true;
+    }
+}
+if ( bottomBlock )
+{
+    if (self.sprite_index == bottomBlock.sprite_index) {
+        global.hasBlocksSameColor = true;
+        self.autoDestroy = true;
+    }
+}
+if ( topBlock )
+{
+    if (self.sprite_index == topBlock.sprite_index) {
+        global.hasBlocksSameColor = true;
+        self.autoDestroy = true;
+    }
+}
+
+inspectedColor = true;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
       </action>
     </event>
     <event eventtype="6" enumb="56">
@@ -298,7 +472,7 @@ if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
         }
         else {
             neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, oBlock);
-            instance_create(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, obj_Point);
+            //instance_create(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, obj_Point);
             if neighbour {
                 dir = directionEnum.XX;
                 if abs(diff_x) &gt; MAX_SPEED then diff_x = sign(diff_x)*MAX_SPEED;
@@ -324,7 +498,7 @@ if dir != directionEnum.NONE {
             if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
               
             new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), oBlock);
-            instance_create(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), obj_Point); // draw
+            //instance_create(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), obj_Point); // draw
                 
             if (new_neighbour != neighbour) {
                 if !new_neighbour {
@@ -354,7 +528,7 @@ if dir != directionEnum.NONE {
             if abs(diff_x) &gt; MAX_SPEED then diff_x = sign(diff_x)*MAX_SPEED;
             
             new_neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, oBlock);
-            instance_create(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_Point); // draw
+            //instance_create(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_Point); // draw
                 
             if (new_neighbour != neighbour) {
                 if !new_neighbour {
@@ -410,19 +584,27 @@ if dir != directionEnum.NONE {
  */
 if x &gt;= last_fit_x + self.sprite_width {
     last_fit_x += self.sprite_width;
-    alarm[1] = 2;
+    //global.inspectBlocksToDestroy = true;
+    global.inspectMouse = true;
+    //alarm[1] = 1;
     }
 if x &lt;= last_fit_x - self.sprite_width {
     last_fit_x -= self.sprite_width;
-    alarm[1] = 2;
+    //global.inspectBlocksToDestroy = true;
+    global.inspectMouse = true;
+    //alarm[1] = 1;
     }
 if y &gt;= last_fit_y + self.sprite_height {
     last_fit_y += self.sprite_height;
-    alarm[1] = 2;
+    //global.inspectBlocksToDestroy = true;
+    global.inspectMouse = true;
+    //alarm[1] = 1;
     }
 if y &lt;= last_fit_y - self.sprite_height {
     last_fit_y -= self.sprite_height;
-    alarm[1] = 2;
+    //global.inspectBlocksToDestroy = true;
+    global.inspectMouse = true;
+    //alarm[1] = 1;
     }
 </string>
           </argument>

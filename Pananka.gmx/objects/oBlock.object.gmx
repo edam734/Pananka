@@ -42,7 +42,8 @@ enum directionBlockEnum {
 }
 dirBlock = directionBlockEnum.NONE;
 
-inspectColor = ds_list_create();
+//inspectColor = ds_list_create();
+inspectedColor = false;
 
 ETR = /*32*/ /* max speed of obj_Player */ 48 + 1;
 actionSpeed = 24;
@@ -278,7 +279,7 @@ if (dist_pos_y == y and dist_pos_x == x) {
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>global.gravityy</string>
+            <string>global.gravity__</string>
           </argument>
         </arguments>
       </action>
@@ -314,7 +315,7 @@ if (dist_pos_y == y and dist_pos_x == x) {
             <kind>1</kind>
             <string>///Gravity
 
-self.solid = true;
+//self.solid = true;
 
 if (place_free(x, y+1)) {
         vspeed += 2;
@@ -325,6 +326,158 @@ if (place_free(x, y+1)) {
 </string>
           </argument>
         </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>inspectMouse</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>-1</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>inspectedColor</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Inspect Neighbours Color
+var rightBlock = instance_position(self.x + self.sprite_width, self.y, oBlock);
+var leftBlock = instance_position(self.x - self.sprite_width, self.y, oBlock);
+var bottomBlock = instance_position(self.x, self.y + self.sprite_height, oBlock);
+var topBlock = instance_position(self.x, self.y - self.sprite_height, oBlock);
+
+if ( rightBlock )
+{
+    if (self.sprite_index == rightBlock.sprite_index) {
+        global.hasBlocksSameColor = true;
+        self.autoDestroy = true;
+    }
+}
+if ( leftBlock )
+{
+    if (self.sprite_index == leftBlock.sprite_index) {
+        global.hasBlocksSameColor = true;
+        self.autoDestroy = true;
+    }
+}
+if ( bottomBlock )
+{
+    if (self.sprite_index == bottomBlock.sprite_index) {
+        global.hasBlocksSameColor = true;
+        self.autoDestroy = true;
+    }
+}
+if ( topBlock )
+{
+    if (self.sprite_index == topBlock.sprite_index) {
+        global.hasBlocksSameColor = true;
+        self.autoDestroy = true;
+    }
+}
+
+inspectedColor = true;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
       </action>
       <action>
         <libid>1</libid>
@@ -357,9 +510,38 @@ if (place_free(x, y+1)) {
           <argument>
             <kind>1</kind>
             <string>///Destroy
+/*
 if autoDestroy {
     //image_alpha = 0.5;
     instance_destroy();
+}*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Solid &amp;&amp; Unsolid
+
+if (global.gravity__ == false) {
+    self.solid = false;
+}
+else {
+    self.solid = true;
 }
 </string>
           </argument>
@@ -384,7 +566,7 @@ if autoDestroy {
           <argument>
             <kind>1</kind>
             <string>///Collision
-if (global.gravityy)
+if (global.gravity__)
 {
 move_contact_solid(270,0);  
 vspeed = 0;
@@ -412,7 +594,7 @@ vspeed = 0;
           <argument>
             <kind>1</kind>
             <string>///Collision
-if (global.gravityy)
+if (global.gravity__)
 {
 move_contact_solid(270,0);  
 vspeed = 0;
