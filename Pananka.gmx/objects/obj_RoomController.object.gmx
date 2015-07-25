@@ -27,10 +27,10 @@
             <kind>1</kind>
             <string>///INIT ROOM
 globalvar
-mouseActive, inspectMouse, hasBlocksSameColor, inspectBlocksFallen, gravity__;
+mouseActive, checkupOnRoomSprites, hasBlocksSameColor, inspectBlocksFallen, gravity__;
 
 mouseActive = true;
-inspectMouse = false;
+checkupOnRoomSprites = false;
 inspectBlocksFallen = false;
 hasBlocksSameColor = false;
 gravity__ = false;
@@ -115,20 +115,10 @@ while (i &lt; instance_number(oBlock))
 if (!foundFallingBlock)
     {
     show_debug_message("Todos os blocos já caíram.");
-    /*
-     * Reset inspectedColor var from all blocks
-     */
-    for (var i = instance_number(oBlock)-1; i &gt;= 0; i--) {
-        var block = instance_find(oBlock, i);
-        with block 
-        {
-        inspectedColor = false;
-        }
-    }
+    removeInspectedColor();
     gravity__ = false;
     inspectBlocksFallen = false;
-    //inspectBlocksToDestroy = true;
-    inspectMouse = true;
+    checkupOnRoomSprites = true;
     }
 
 </string>
@@ -165,7 +155,7 @@ if (!foundFallingBlock)
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>inspectMouse</string>
+            <string>checkupOnRoomSprites</string>
           </argument>
         </arguments>
       </action>
@@ -199,7 +189,7 @@ if (!foundFallingBlock)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///All blocks inspected ?
+            <string>///All blocks were inspected (?)
 
 var foundNotInspected = false;
 
@@ -219,6 +209,7 @@ if (!foundNotInspected) {
      */
     if !hasBlocksSameColor
     {
+    removeInspectedColor();
     mouseActive = true;
     }
 }
@@ -296,6 +287,7 @@ if (hasBlocksSameColor) {
                 gravity__ = true;
                 inspectBlocksFallen = true;
                 hasBlocksSameColor = false;
+                checkupOnRoomSprites = false;
             }
         }
     }

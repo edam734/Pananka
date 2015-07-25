@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>///INIT PLAYER
 
-autoDestroy = false;
+event_inherited();
 
 sprite_index = SKIN_DEFAULT;
 neighbour = -1;
@@ -52,39 +52,12 @@ goFit = false;
 backSpeed = 12;
 countStep = 0;
 
-//inspectColor = ds_list_create();
-inspectedColor = false;
-
 /* temp coordenates */
 
 mouse_previous_x = -1;
 mouse_previous_y = -1;
 last_fit_x = x;
 last_fit_y = y;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="1">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//global.inspectBlocksToDestroy = true;
-global.inspectMouse = true;
 </string>
           </argument>
         </arguments>
@@ -110,21 +83,11 @@ global.inspectMouse = true;
             <string>state = playerstate.STATIC;
 dir = directionEnum.NONE;
 show_debug_message("O player está em modo STATIC.");
-
+/*
 if (!global.hasBlocksSameColor) {
     global.mouseActive = true;
-}
+}*/
 
-/*
-show_debug_message("alarm[0] in obj_Player");
-if (global.gravityy) {
-    //Activate alarm to see if all blocks have fallen
-    obj_RoomController.alarm[0] = 2; 
-}
-else 
-    {
-    global.mouseActive = true;
-    }*/
 </string>
           </argument>
         </arguments>
@@ -147,10 +110,8 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Destroy test
-if autoDestroy {
-    image_alpha = 0.5;
-}
+            <string>///Heritage
+event_inherited();
 </string>
           </argument>
         </arguments>
@@ -225,74 +186,6 @@ if (goFit) {
       </action>
       <action>
         <libid>1</libid>
-        <id>408</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>-1</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_if</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>inspectMouse</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>422</id>
-        <kind>1</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>408</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>-1</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_if</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>-1</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>inspectedColor</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>422</id>
-        <kind>1</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
-      <action>
-        <libid>1</libid>
         <id>603</id>
         <kind>7</kind>
         <userelative>0</userelative>
@@ -307,73 +200,13 @@ if (goFit) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Inspect Neighbours Color
-var rightBlock = instance_position(self.x + self.sprite_width, self.y, oBlock);
-var leftBlock = instance_position(self.x - self.sprite_width, self.y, oBlock);
-var bottomBlock = instance_position(self.x, self.y + self.sprite_height, oBlock);
-var topBlock = instance_position(self.x, self.y - self.sprite_height, oBlock);
-
-if ( rightBlock )
-{
-    if (self.sprite_index == rightBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
-    }
+            <string>///Destroy test
+if autoDestroy {
+    image_alpha = 0.5;
 }
-if ( leftBlock )
-{
-    if (self.sprite_index == leftBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
-    }
-}
-if ( bottomBlock )
-{
-    if (self.sprite_index == bottomBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
-    }
-}
-if ( topBlock )
-{
-    if (self.sprite_index == topBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
-    }
-}
-
-inspectedColor = true;
 </string>
           </argument>
         </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>424</id>
-        <kind>2</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>424</id>
-        <kind>2</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
       </action>
     </event>
     <event eventtype="6" enumb="56">
@@ -584,27 +417,19 @@ if dir != directionEnum.NONE {
  */
 if x &gt;= last_fit_x + self.sprite_width {
     last_fit_x += self.sprite_width;
-    //global.inspectBlocksToDestroy = true;
-    global.inspectMouse = true;
-    //alarm[1] = 1;
+    global.checkupOnRoomSprites = true;
     }
 if x &lt;= last_fit_x - self.sprite_width {
     last_fit_x -= self.sprite_width;
-    //global.inspectBlocksToDestroy = true;
-    global.inspectMouse = true;
-    //alarm[1] = 1;
+    global.checkupOnRoomSprites = true;
     }
 if y &gt;= last_fit_y + self.sprite_height {
     last_fit_y += self.sprite_height;
-    //global.inspectBlocksToDestroy = true;
-    global.inspectMouse = true;
-    //alarm[1] = 1;
+    global.checkupOnRoomSprites = true;
     }
 if y &lt;= last_fit_y - self.sprite_height {
     last_fit_y -= self.sprite_height;
-    //global.inspectBlocksToDestroy = true;
-    global.inspectMouse = true;
-    //alarm[1] = 1;
+    global.checkupOnRoomSprites = true;
     }
 </string>
           </argument>

@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>oBlock</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -25,11 +25,28 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///INIT
+            <string>///INIT SIBLING
 
-autoDestroy = false;
-inspectedColor = false;
+event_inherited();
 
+enum blockstate {
+    STATIC,
+    ACTION
+}
+state = blockstate.STATIC;
+
+enum directionBlockEnum {
+    XX,
+    YY,
+    NONE
+}
+dirBlock = directionBlockEnum.NONE;
+
+ETR = /*32*/ /* max speed of obj_Player */ 48 + 1;
+actionSpeed = 24;
+
+dist_pos_x = -1;
+dist_pos_y = -1;
 </string>
           </argument>
         </arguments>
@@ -52,14 +69,8 @@ inspectedColor = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Solid &amp;&amp; Unsolid
-
-if (global.gravity__ == false) {
-    self.solid = false;
-}
-else {
-    self.solid = true;
-}
+            <string>///Heritage
+event_inherited();
 </string>
           </argument>
         </arguments>
@@ -80,7 +91,7 @@ else {
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>global.gravity__</string>
+            <string>state != blockstate.ACTION </string>
           </argument>
         </arguments>
       </action>
@@ -114,14 +125,34 @@ else {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Gravity
+            <string>///go switch
 
-if (place_free(x, y+1)) {
-        vspeed += 2;
-    }
-    else {
-        vspeed = 0;
-    }
+if x &gt;= obj_Player.x - ETR and x &lt;= obj_Player.x and y == obj_Player.y {
+    dirBlock = directionBlockEnum.XX;
+    state = blockstate.ACTION;
+    dist_pos_x = x + self.sprite_width;
+    dist_pos_y = y;
+    
+}
+if x &gt;= obj_Player.x and x &lt;= obj_Player.x + ETR and y == obj_Player.y {
+    dirBlock = directionBlockEnum.XX;
+    state = blockstate.ACTION;
+    dist_pos_x = x - self.sprite_width;
+    dist_pos_y = y;
+}
+
+if y &gt;= obj_Player.y - ETR and y &lt;= obj_Player.y and x == obj_Player.x {
+    dirBlock = directionBlockEnum.YY;
+    state = blockstate.ACTION;
+    dist_pos_x = x;
+    dist_pos_y = y + self.sprite_height;
+}
+if y &gt;= obj_Player.y and y &lt;= obj_Player.y + ETR and x == obj_Player.x {
+    dirBlock = directionBlockEnum.YY;
+    state = blockstate.ACTION;
+    dist_pos_x = x;
+    dist_pos_y = y - self.sprite_height;
+}
 </string>
           </argument>
         </arguments>
@@ -156,41 +187,7 @@ if (place_free(x, y+1)) {
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>checkupOnRoomSprites</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>422</id>
-        <kind>1</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>408</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>-1</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_if</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>-1</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>inspectedColor</string>
+            <string>state == blockstate.ACTION</string>
           </argument>
         </arguments>
       </action>
@@ -224,42 +221,49 @@ if (place_free(x, y+1)) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Inspect Neighbours Color
-var rightBlock = instance_position(self.x + self.sprite_width, self.y, oBlock);
-var leftBlock = instance_position(self.x - self.sprite_width, self.y, oBlock);
-var bottomBlock = instance_position(self.x, self.y + self.sprite_height, oBlock);
-var topBlock = instance_position(self.x, self.y - self.sprite_height, oBlock);
+            <string>///Action switch
+if dirBlock == directionBlockEnum.YY {
+    if (dist_pos_y &gt; y) {
+        if (abs(y - dist_pos_y) &lt;= actionSpeed) {
+            y = dist_pos_y;
+        } else {
+            y += actionSpeed;
+        }
+    }
+    else if (dist_pos_y &lt; y) {
+        if (abs(y - dist_pos_y) &lt;= actionSpeed) {
+            y = dist_pos_y;
+        } else {
+            y -= actionSpeed;
+        }
+    }
+    
+}
+else if dirBlock == directionBlockEnum.XX {
+    if (dist_pos_x &gt; x) {
+        if (abs(x - dist_pos_x) &lt;= actionSpeed) {
+            x = dist_pos_x;
+        } else {
+            x += actionSpeed;
+        }
+    }
+    else if (dist_pos_x &lt; x) {
+        if (abs(x - dist_pos_x) &lt;= actionSpeed) {
+            x = dist_pos_x;
+        } else {
+            x -= actionSpeed;
+        }
+    }
+    
+}
 
-if ( rightBlock )
-{
-    if (self.sprite_index == rightBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
-    }
-}
-if ( leftBlock )
-{
-    if (self.sprite_index == leftBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
-    }
-}
-if ( bottomBlock )
-{
-    if (self.sprite_index == bottomBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
-    }
-}
-if ( topBlock )
-{
-    if (self.sprite_index == topBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
-    }
-}
 
-inspectedColor = true;
+if (dist_pos_y == y and dist_pos_x == x) {
+    dirBlock = directionBlockEnum.NONE;
+    state = blockstate.STATIC;
+    dist_pos_x = -1;
+    dist_pos_y = -1;
+}
 </string>
           </argument>
         </arguments>
@@ -280,22 +284,6 @@ inspectedColor = true;
       </action>
       <action>
         <libid>1</libid>
-        <id>424</id>
-        <kind>2</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
-    </event>
-    <event eventtype="4" ename="oBlock">
-      <action>
-        <libid>1</libid>
         <id>603</id>
         <kind>7</kind>
         <userelative>0</userelative>
@@ -310,40 +298,12 @@ inspectedColor = true;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Collision
-if (global.gravity__)
-{
-move_contact_solid(270,0);  
-vspeed = 0;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="4" ename="obj_Brick">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Collision
-if (global.gravity__)
-{
-move_contact_solid(270,0);  
-vspeed = 0;
-}
+            <string>///Destroy
+/*
+if autoDestroy {
+    //image_alpha = 0.5;
+    instance_destroy();
+}*/
 </string>
           </argument>
         </arguments>
