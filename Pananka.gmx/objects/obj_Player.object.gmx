@@ -326,63 +326,63 @@ if dir != directionEnum.NONE {
         
         if dir == directionEnum.YY {
             
-            //if sig == sign(diff_y) 
-            //{
-            if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
-              
-            new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), oBlock);
-            //instance_create(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), obj_Point); // draw
-                
-            if (new_neighbour != neighbour) {
-                if !new_neighbour {
-                        
-                    if ((sign(diff_y) &lt; 0 and last_fit_y &gt; y) or (sign(diff_y) &gt; 0 and last_fit_y &lt; y)) {
-                        self.y = last_fit_y + sign(diff_y)*self.sprite_height;
+            if sig == sign(diff_y) // for remove the bug #
+            {
+                if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
+                  
+                new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), oBlock);
+                //instance_create(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), obj_Point); // draw
+                    
+                if (new_neighbour != neighbour) {
+                    if !new_neighbour {
+                            
+                        if ((sign(diff_y) &lt; 0 and last_fit_y &gt; y) or (sign(diff_y) &gt; 0 and last_fit_y &lt; y)) {
+                            self.y = last_fit_y + sign(diff_y)*self.sprite_height;
+                        }
+                        else if ((sign(diff_y) &lt; 0 and last_fit_y &lt;= y) or (sign(diff_y) &gt; 0 and last_fit_y &gt;= y)) {
+                            self.y = last_fit_y;
+                        }
+                        neighbour = new_neighbour;
+                        dir = directionEnum.NONE;
                     }
-                    else if ((sign(diff_y) &lt; 0 and last_fit_y &lt;= y) or (sign(diff_y) &gt; 0 and last_fit_y &gt;= y)) {
-                        self.y = last_fit_y;
+                    else {
+                        self.y += diff_y;
                     }
-                    neighbour = new_neighbour;
-                    dir = directionEnum.NONE;
                 }
                 else {
                     self.y += diff_y;
                 }
             }
-            else {
-                self.y += diff_y;
-            }
-            //}
         }
         else if dir == directionEnum.XX {
             
-            //if sig == sign(diff_x) 
-            //{
-            if abs(diff_x) &gt; MAX_SPEED then diff_x = sign(diff_x)*MAX_SPEED;
-            
-            new_neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, oBlock);
-            //instance_create(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_Point); // draw
+            if sig == sign(diff_x) // for remove the bug #
+            {
+                if abs(diff_x) &gt; MAX_SPEED then diff_x = sign(diff_x)*MAX_SPEED;
                 
-            if (new_neighbour != neighbour) {
-                if !new_neighbour {
-                        
-                    if ((sign(diff_x) &lt; 0 and last_fit_x &gt; x) or (sign(diff_x) &gt; 0 and last_fit_x &lt; x)) {
-                        self.x = last_fit_x + sign(diff_x)*self.sprite_width;
+                new_neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, oBlock);
+                //instance_create(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_Point); // draw
+                    
+                if (new_neighbour != neighbour) {
+                    if !new_neighbour {
+                            
+                        if ((sign(diff_x) &lt; 0 and last_fit_x &gt; x) or (sign(diff_x) &gt; 0 and last_fit_x &lt; x)) {
+                            self.x = last_fit_x + sign(diff_x)*self.sprite_width;
+                        }
+                        else if ((sign(diff_x) &gt; 0 and last_fit_x &gt;= x) or (sign(diff_x) &lt; 0 and last_fit_x &lt;= x)) {
+                            self.x = last_fit_x;
+                        }
+                        neighbour = new_neighbour;
+                        dir = directionEnum.NONE;
                     }
-                    else if ((sign(diff_x) &gt; 0 and last_fit_x &gt;= x) or (sign(diff_x) &lt; 0 and last_fit_x &lt;= x)) {
-                        self.x = last_fit_x;
+                    else {
+                        self.x += diff_x;
                     }
-                    neighbour = new_neighbour;
-                    dir = directionEnum.NONE;
                 }
                 else {
                     self.x += diff_x;
                 }
             }
-            else {
-                self.x += diff_x;
-            }
-            //}
         }
         mouse_previous_x = mouse_x;
         mouse_previous_y = mouse_y;
