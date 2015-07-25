@@ -83,10 +83,10 @@ last_fit_y = y;
             <string>state = playerstate.STATIC;
 dir = directionEnum.NONE;
 show_debug_message("O player está em modo STATIC.");
-/*
+
 if (!global.hasBlocksSameColor) {
     global.mouseActive = true;
-}*/
+}
 
 </string>
           </argument>
