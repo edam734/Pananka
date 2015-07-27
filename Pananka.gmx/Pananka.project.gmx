@@ -24,6 +24,7 @@
       <sprite>sprites\spr_q3</sprite>
     </sprites>
     <sprite>sprites\sprBackButton</sprite>
+    <sprite>sprites\spr_Selector</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -56,12 +57,16 @@
       <object>objects\obj_q2</object>
       <object>objects\obj_q3</object>
     </objects>
+    <object>objects\obj_Selector</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\firstRoom</room>
     <room>rooms\test_1_Room</room>
     <room>rooms\test_2_Room</room>
   </rooms>
+  <constants number="1">
+    <constant name="DISSOLVE_RATE">20</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>

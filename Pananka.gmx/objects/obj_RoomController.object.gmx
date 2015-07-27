@@ -26,9 +26,10 @@
           <argument>
             <kind>1</kind>
             <string>///INIT ROOM
+
 globalvar
-mouseActive, checkupOnRoomSprites, hasBlocksSameColor, inspectBlocksFallen, gravity__,
-room_creation;
+mouseActive, checkupOnRoomSprites, inspectBlocksFallen, hasBlocksSameColor, 
+gravity__, room_creation;
 
 mouseActive = false;
 checkupOnRoomSprites = false;
