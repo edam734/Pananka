@@ -293,7 +293,7 @@ inspectedColor = true;
         <isnot>0</isnot>
       </action>
     </event>
-    <event eventtype="4" ename="oBlock">
+    <event eventtype="4" ename="obj_Brick">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -321,7 +321,7 @@ vspeed = 0;
         </arguments>
       </action>
     </event>
-    <event eventtype="4" ename="obj_Brick">
+    <event eventtype="4" ename="oBlock">
       <action>
         <libid>1</libid>
         <id>603</id>
