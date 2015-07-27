@@ -21,7 +21,9 @@
     <sprites name="spr_Qs">
       <sprite>sprites\spr_q</sprite>
       <sprite>sprites\spr_q2</sprite>
+      <sprite>sprites\spr_q3</sprite>
     </sprites>
+    <sprite>sprites\sprBackButton</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -31,6 +33,7 @@
   <objects name="objects">
     <object>objects\obj_GameController</object>
     <object>objects\obj_RoomController</object>
+    <object>objects\oParent</object>
     <object>objects\oBlock</object>
     <object>objects\obj_Sibling</object>
     <object>objects\obj_Player</object>
@@ -44,12 +47,14 @@
       <object>objects\oModel_4</object>
     </objects>
     <object>objects\obj_NextRoom</object>
+    <object>objects\obj_BackButton</object>
     <object>objects\obj_Point</object>
     <object>objects\obj_Brick</object>
     <objects name="obj_Qs">
       <object>objects\prt_Q</object>
       <object>objects\obj_q</object>
       <object>objects\obj_q2</object>
+      <object>objects\obj_q3</object>
     </objects>
   </objects>
   <rooms name="rooms">

@@ -56,7 +56,6 @@
     <instance objName="obj_Brick" x="240" y="432" name="inst_30880F87" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Brick" x="336" y="432" name="inst_8F22166F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Brick" x="432" y="432" name="inst_08A45C15" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_Brick" x="528" y="432" name="inst_F8E1E22C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Player" x="528" y="336" name="inst_8893C154" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RoomController" x="0" y="0" name="inst_CC7CBE6E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oModel_1" x="144" y="144" name="inst_5D00B21F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -70,6 +69,20 @@
     <instance objName="oModel_2" x="240" y="144" name="inst_D2FDF19A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oModel_3" x="144" y="240" name="inst_0F4C463F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oModel_3" x="432" y="336" name="inst_3E0340C2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Brick" x="48" y="624" name="inst_EE6D2537" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Brick" x="144" y="624" name="inst_7FEB512A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Brick" x="240" y="624" name="inst_8E76B101" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Brick" x="336" y="624" name="inst_116D350D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Brick" x="432" y="624" name="inst_D52280B2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Brick" x="528" y="624" name="inst_AD900D51" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oModel_1" x="48" y="528" name="inst_A5F46F63" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oModel_1" x="336" y="528" name="inst_E2C558E6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oModel_2" x="144" y="528" name="inst_86CF9344" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oModel_2" x="528" y="528" name="inst_2E6C6D6F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oModel_3" x="432" y="528" name="inst_47EFCC12" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oModel_4" x="240" y="528" name="inst_E60C2625" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oModel_1" x="528" y="432" name="inst_92A6A6C1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_BackButton" x="528" y="96" name="inst_77F56ED4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

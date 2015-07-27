@@ -38,6 +38,7 @@ gravity__ = false;
 room_creation = false;
 
 countStep = 0;
+
 </string>
           </argument>
         </arguments>
@@ -314,16 +315,29 @@ if (hasBlocksSameColor) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Visible Siblings
+            <string>///Visible
 
 if !mouseActive
 {
-    if ( room_creation ) {
-        for (var i = 0; i &lt; instance_number(obj_Sibling); i++) {
-            var sibling = instance_find(obj_Sibling, i);
-            sibling.visible = true;
+    if ( room_creation and instance_exists(prt_Q) ) {
+        for (var i = 0; i &lt; instance_number(oParent); i++) {
+            var object = instance_find(oParent, i);
+            object.visible = true;
         }
         mouseActive = true;
+    }
+    else {
+        var foundNotPlaced = false;
+        for (var i = 0; i &lt; instance_number(prt_Q); i++) {
+            var objectQ = instance_find(prt_Q, i);
+            if (objectQ.y &lt; objectQ.destiny_y) {
+                foundNotPlaced = true;
+                break;
+            }
+        }
+        if ( !foundNotPlaced ) {
+            room_creation = true;
+        }
     }
 }
 </string>
