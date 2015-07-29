@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>oParent</parentName>
+  <parentName>obj_SpaceMove</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -31,6 +31,7 @@ event_inherited();
 
 autoDestroy = false;
 inspectedColor = false;
+matched = false;
 
 </string>
           </argument>
@@ -227,6 +228,7 @@ if (place_free(x, y+1)) {
           <argument>
             <kind>1</kind>
             <string>///Inspect Neighbours Color
+
 var rightBlock = instance_position(self.x + self.sprite_width, self.y, oBlock);
 var leftBlock = instance_position(self.x - self.sprite_width, self.y, oBlock);
 var bottomBlock = instance_position(self.x, self.y + self.sprite_height, oBlock);
@@ -234,30 +236,51 @@ var topBlock = instance_position(self.x, self.y - self.sprite_height, oBlock);
 
 if ( rightBlock )
 {
-    if (self.sprite_index == rightBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
+    if ( self.sprite_index == spr_Model_2 )
+    {
+        if (rightBlock.sprite_index == spr_Model_4) {
+            global.hasBlocksSameColor = true;
+            //self.autoDestroy = true;
+            self.matched = true;
+            instance_create(x,y,obj_Point);
+        }
     }
 }
 if ( leftBlock )
 {
-    if (self.sprite_index == leftBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
+    if ( self.sprite_index == spr_Model_4 )
+    {
+        if (leftBlock.sprite_index == spr_Model_2) {
+            global.hasBlocksSameColor = true;
+            //self.autoDestroy = true;
+            self.matched = true;
+            instance_create(x,y,obj_Point);
+        }
     }
 }
 if ( bottomBlock )
 {
-    if (self.sprite_index == bottomBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
+
+    if ( self.sprite_index == spr_Model_3 )
+    {
+        if (bottomBlock.sprite_index == spr_Model_1) {
+            global.hasBlocksSameColor = true;
+            //self.autoDestroy = true;
+            self.matched = true;
+            instance_create(x,y,obj_Point);
+        }
     }
 }
 if ( topBlock )
 {
-    if (self.sprite_index == topBlock.sprite_index) {
-        global.hasBlocksSameColor = true;
-        self.autoDestroy = true;
+    if ( self.sprite_index == spr_Model_1 )
+    {
+        if (topBlock.sprite_index == spr_Model_3) {
+            global.hasBlocksSameColor = true;
+            //self.autoDestroy = true;
+            self.matched = true;
+            instance_create(x,y,obj_Point);
+        }
     }
 }
 
@@ -293,6 +316,41 @@ inspectedColor = true;
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///AutoDestroy
+if ( self.autoDestroy ) { 
+    if ( !global.icarusCreated )
+    {
+        var rand = irandom_range(1, 10);
+        show_debug_message("rand = " + string(rand));
+        if (rand &gt;= 4) {
+            // there's 50% chance of this happend
+            var icarus = instance_create(x,y,obj_Icarus);
+            icarus.depth = self.depth - 1;
+            global.icarusCreated = true;
+        }
+    }
+    instance_destroy(); 
+}
+</string>
+          </argument>
+        </arguments>
       </action>
     </event>
     <event eventtype="4" ename="obj_Brick">

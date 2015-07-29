@@ -29,7 +29,8 @@
 
 event_inherited();
 
-instance_create(x,y,obj_Selector);
+selector = instance_create(x,y,obj_Selector);
+selector.player = self.id; // this player
 
 sprite_index = SKIN_DEFAULT;
 neighbour = -1;
@@ -65,6 +66,34 @@ last_fit_y = y;
         </arguments>
       </action>
     </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Destroy Selector
+/*
+ * Destroy selector with the player
+ */
+with selector { instance_destroy(); }
+    
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="2" enumb="0">
       <action>
         <libid>1</libid>
@@ -82,7 +111,8 @@ last_fit_y = y;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>state = playerstate.STATIC;
+            <string>///Static
+state = playerstate.STATIC;
 dir = directionEnum.NONE;
 show_debug_message("O player está em modo STATIC.");
 
@@ -297,7 +327,7 @@ if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
         diff_y = mouse_y - mouse_previous_y;
         
         if abs(diff_y) &gt; abs(diff_x) {
-            neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+1), oBlock);
+            neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+1), obj_SpaceMove);
             if neighbour {
                 dir = directionEnum.YY;
                 if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
@@ -306,7 +336,7 @@ if state == playerstate.MOVING &amp;&amp; dir == directionEnum.NONE {
             sig = sign(diff_y);
         }
         else {
-            neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, oBlock);
+            neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, obj_SpaceMove);
             //instance_create(self.x + sign(diff_x)*(self.sprite_width/2+1), self.y, obj_Point);
             if neighbour {
                 dir = directionEnum.XX;
@@ -332,7 +362,7 @@ if dir != directionEnum.NONE {
             {
                 if abs(diff_y) &gt; MAX_SPEED then diff_y = sign(diff_y)*MAX_SPEED;
                   
-                new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), oBlock);
+                new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), obj_SpaceMove);
                 //instance_create(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), obj_Point); // draw
                     
                 if (new_neighbour != neighbour) {
@@ -362,7 +392,7 @@ if dir != directionEnum.NONE {
             {
                 if abs(diff_x) &gt; MAX_SPEED then diff_x = sign(diff_x)*MAX_SPEED;
                 
-                new_neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, oBlock);
+                new_neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_SpaceMove);
                 //instance_create(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_Point); // draw
                     
                 if (new_neighbour != neighbour) {
@@ -529,6 +559,32 @@ if state == playerstate.STATIC {
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if room_get_name(room) == "test_2_Room"
+    {
+    self.sprite_index = spr_Model_1;
+    }
+</string>
+          </argument>
+        </arguments>
       </action>
     </event>
   </events>

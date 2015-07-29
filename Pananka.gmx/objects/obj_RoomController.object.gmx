@@ -29,7 +29,7 @@
 
 globalvar
 mouseActive, checkupOnRoomSprites, inspectBlocksFallen, hasBlocksSameColor, 
-gravity__, room_creation;
+gravity__, room_creation, icarusCreated;
 
 mouseActive = false;
 checkupOnRoomSprites = false;
@@ -37,7 +37,9 @@ inspectBlocksFallen = false;
 hasBlocksSameColor = false;
 gravity__ = false;
 room_creation = false;
+icarusCreated = false;
 
+inspectBlockToDestroy = false;
 countStep = 0;
 
 </string>
@@ -207,14 +209,132 @@ for (var i = 0; i &lt; instance_number(oBlock); i++) {
 }
 
 if (!foundNotInspected) {
+
     /*
-     * if all blocks where inspected and aren't any blocks 
-     * with the same color, the player, must go on
+     * if it ends without having to destroy more blocks
+     * then finish all evaluation and go on with the game
      */
     if !hasBlocksSameColor
+        {
+        removeInspectedColor();
+        mouseActive = true;
+        checkupOnRoomSprites = false;
+        }
+    else 
     {
-    removeInspectedColor();
-    mouseActive = true;
+        // stop (go fit) the player and proceed to destruction
+        inspectBlockToDestroy = true;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>inspectBlockToDestroy</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Go fit oPlayer
+if (hasBlocksSameColor) {
+
+    mouse_clear(mb_any);
+    mouseActive = false;
+    inspectBlockToDestroy = false;
+
+    if (object_exists(obj_Player)) {
+        with (obj_Player) {
+            // do this if only one time
+            if state == playerstate.MOVING and countStep == 0 {
+                show_debug_message("Vai fazer fit do player");
+                goFit = true;
+                countStep = 1;
+            }
+            // move on
+            if state == playerstate.STATIC {
+                show_debug_message("Completou o fit do player e vai reiniciar o contador countStep.");
+                countStep = 0;
+              
+                /*
+                 * Destroy all the blocks marked to be destroyed
+                 *
+                 */  
+                for (var i = instance_number(oBlock)-1; i &gt;= 0; i--) {
+                    var block = instance_find(oBlock, i);
+                    if ( block.matched ) {
+                        if (instance_position(block.x, block.y, obj_Player)) {
+                            // the player has special powers
+                        }
+                        else {
+                            block.autoDestroy = true;
+                        }
+                    }
+                }
+                gravity__ = true;
+                inspectBlocksFallen = true;
+                hasBlocksSameColor = false;
+                checkupOnRoomSprites = false;
+            }
+        }
     }
 }
 </string>
@@ -251,72 +371,7 @@ if (!foundNotInspected) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Go fit oPlayer
-if (hasBlocksSameColor) {
-
-    mouse_clear(mb_any);
-    mouseActive = false;
-
-    if (object_exists(obj_Player)) {
-        with (obj_Player) {
-            // do this if only one time
-            if state == playerstate.MOVING and countStep == 0 {
-                show_debug_message("Vai fazer fit do player");
-                goFit = true;
-                countStep = 1;
-            }
-            // move on
-            if state == playerstate.STATIC {
-                show_debug_message("Completou o fit do player e vai reiniciar o contador countStep.");
-                countStep = 0;
-              
-                /*
-                 * Destroy all the blocks marked to be destroyed
-                 *
-                 */  
-                for (var i = instance_number(oBlock)-1; i &gt;= 0; i--) {
-                    var block = instance_find(oBlock, i);
-                    if (block.autoDestroy) {
-                        if (instance_position(block.x, block.y, obj_Player)) {
-                            //
-                            // the player has special powers
-                        }
-                        else {
-                            with block {
-                                instance_destroy();
-                            }
-                        }
-                    } 
-                }
-                gravity__ = true;
-                inspectBlocksFallen = true;
-                hasBlocksSameColor = false;
-                checkupOnRoomSprites = false;
-            }
-        }
-    }
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Visible
+            <string>///All Blocks Visible
 
 if !mouseActive
 {
@@ -367,10 +422,15 @@ if !mouseActive
 var underlying_object = instance_position(mouse_x, mouse_y, all);
 if underlying_object {
     with underlying_object {
-        show_debug_message("solid = " + string(solid));
+        show_debug_message("solid = " + string(underlying_object.solid));
         show_debug_message("gravity__ = " + string(gravity__));
         //image_alpha = 0.5;
     }
+    // if its a block
+    if underlying_object == instance_position(mouse_x, mouse_y, oBlock)
+        {
+        show_debug_message("matched? = " + string(underlying_object.matched));
+        }
 }
 show_debug_message("underlying_object = " + string(underlying_object));
 </string>

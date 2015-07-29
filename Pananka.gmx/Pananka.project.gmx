@@ -23,8 +23,13 @@
       <sprite>sprites\spr_q2</sprite>
       <sprite>sprites\spr_q3</sprite>
     </sprites>
+    <sprites name="Dominos">
+      <sprite>sprites\spr_Domino_1</sprite>
+    </sprites>
     <sprite>sprites\sprBackButton</sprite>
     <sprite>sprites\spr_Selector</sprite>
+    <sprite>sprites\spr_Icarus</sprite>
+    <sprite>sprites\spr_Destiny</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -35,9 +40,11 @@
     <object>objects\obj_GameController</object>
     <object>objects\obj_RoomController</object>
     <object>objects\oParent</object>
+    <object>objects\obj_SpaceMove</object>
     <object>objects\oBlock</object>
     <object>objects\obj_Sibling</object>
     <object>objects\obj_Player</object>
+    <object>objects\obj_Selector</object>
     <objects name="Siblings">
       <object>objects\obj_Yellow</object>
       <object>objects\obj_Red</object>
@@ -46,25 +53,29 @@
       <object>objects\oModel_2</object>
       <object>objects\oModel_3</object>
       <object>objects\oModel_4</object>
+      <object>objects\obj_Domino_1</object>
     </objects>
-    <object>objects\obj_NextRoom</object>
-    <object>objects\obj_BackButton</object>
-    <object>objects\obj_Point</object>
-    <object>objects\obj_Brick</object>
     <objects name="obj_Qs">
       <object>objects\prt_Q</object>
       <object>objects\obj_q</object>
       <object>objects\obj_q2</object>
       <object>objects\obj_q3</object>
     </objects>
-    <object>objects\obj_Selector</object>
+    <object>objects\obj_NextRoom</object>
+    <object>objects\obj_BackButton</object>
+    <object>objects\obj_Point</object>
+    <object>objects\obj_Brick</object>
+    <object>objects\obj_Icarus</object>
+    <object>objects\oDestiny</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\firstRoom</room>
     <room>rooms\test_1_Room</room>
     <room>rooms\test_2_Room</room>
+    <room>rooms\test_3_Room</room>
   </rooms>
-  <constants number="1">
+  <constants number="2">
+    <constant name="SKIN_DEFAULT">spr_Red</constant>
     <constant name="DISSOLVE_RATE">20</constant>
   </constants>
   <help>
