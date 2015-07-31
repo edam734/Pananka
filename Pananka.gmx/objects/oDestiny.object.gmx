@@ -27,15 +27,15 @@
             <kind>1</kind>
             <string>///Finish!!
 if instance_exists(obj_Player) {
-    if room_next(room) != -1 {
+    if room_exists(room_next(room)) {
         room_goto_next();
     }
     else {
-        room_goto(firstRoom);
+        room_goto(room_first);
     }
 }
 else {
-    // restart room
+    room_restart();
 }
 </string>
           </argument>

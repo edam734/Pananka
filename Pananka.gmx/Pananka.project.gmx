@@ -25,6 +25,11 @@
     </sprites>
     <sprites name="Dominos">
       <sprite>sprites\spr_Domino_1</sprite>
+      <sprite>sprites\spr_Domino_2</sprite>
+      <sprite>sprites\spr_Domino_3</sprite>
+      <sprite>sprites\spr_Domino_4</sprite>
+      <sprite>sprites\spr_Domino_5</sprite>
+      <sprite>sprites\spr_Domino_6</sprite>
     </sprites>
     <sprite>sprites\sprBackButton</sprite>
     <sprite>sprites\spr_Selector</sprite>
@@ -54,6 +59,11 @@
       <object>objects\oModel_3</object>
       <object>objects\oModel_4</object>
       <object>objects\obj_Domino_1</object>
+      <object>objects\obj_Domino_2</object>
+      <object>objects\obj_Domino_3</object>
+      <object>objects\obj_Domino_4</object>
+      <object>objects\obj_Domino_5</object>
+      <object>objects\obj_Domino_6</object>
     </objects>
     <objects name="obj_Qs">
       <object>objects\prt_Q</object>
