@@ -578,9 +578,14 @@ if state == playerstate.STATIC {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if room_get_name(room) == "test_2_Room"
+            <string>///Sprite in Room
+if room_get_name(room) == "test_2_Room"
     {
     self.sprite_index = spr_Model_1;
+    }
+if room_get_name(room) == "test_3_Room"
+    {
+    self.sprite_index = spr_Domino_2;
     }
 </string>
           </argument>

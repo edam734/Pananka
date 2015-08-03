@@ -2,10 +2,10 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>0</visible>
+  <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>oBlock</parentName>
+  <parentName>obj_Sibling</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -25,29 +25,11 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///INIT SIBLING
+            <string>///Init
 
 event_inherited();
 
-enum blockstate {
-    STATIC,
-    ACTION
-}
-state = blockstate.STATIC;
-
-enum directionBlockEnum {
-    XX,
-    YY,
-    NONE
-}
-dirBlock = directionBlockEnum.NONE;
-
-ETR = /*32*/ /* max speed of obj_Player */ 48 + 1;
-actionSpeed = 24 * 2;
-
-dist_pos_x = -1;
-dist_pos_y = -1;
-
+dvalue = 0;
 </string>
           </argument>
         </arguments>
@@ -92,7 +74,7 @@ event_inherited();
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>state != blockstate.ACTION </string>
+            <string>checkupOnRoomSprites</string>
           </argument>
         </arguments>
       </action>
@@ -100,68 +82,6 @@ event_inherited();
         <libid>1</libid>
         <id>422</id>
         <kind>1</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>0</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///go switch
-
-if x &gt;= obj_Player.x - ETR and x &lt;= obj_Player.x and y == obj_Player.y {
-    dirBlock = directionBlockEnum.XX;
-    state = blockstate.ACTION;
-    dist_pos_x = x + self.sprite_width;
-    dist_pos_y = y;
-    
-}
-if x &gt;= obj_Player.x and x &lt;= obj_Player.x + ETR and y == obj_Player.y {
-    dirBlock = directionBlockEnum.XX;
-    state = blockstate.ACTION;
-    dist_pos_x = x - self.sprite_width;
-    dist_pos_y = y;
-}
-
-if y &gt;= obj_Player.y - ETR and y &lt;= obj_Player.y and x == obj_Player.x {
-    dirBlock = directionBlockEnum.YY;
-    state = blockstate.ACTION;
-    dist_pos_x = x;
-    dist_pos_y = y + self.sprite_height;
-}
-if y &gt;= obj_Player.y and y &lt;= obj_Player.y + ETR and x == obj_Player.x {
-    dirBlock = directionBlockEnum.YY;
-    state = blockstate.ACTION;
-    dist_pos_x = x;
-    dist_pos_y = y - self.sprite_height;
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>424</id>
-        <kind>2</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
         <useapplyto>0</useapplyto>
@@ -184,11 +104,11 @@ if y &gt;= obj_Player.y and y &lt;= obj_Player.y + ETR and x == obj_Player.x {
         <codestring></codestring>
         <whoName>self</whoName>
         <relative>0</relative>
-        <isnot>0</isnot>
+        <isnot>-1</isnot>
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>state == blockstate.ACTION</string>
+            <string>inspectedColor</string>
           </argument>
         </arguments>
       </action>
@@ -222,49 +142,106 @@ if y &gt;= obj_Player.y and y &lt;= obj_Player.y + ETR and x == obj_Player.x {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Action switch
-if dirBlock == directionBlockEnum.YY {
-    if (dist_pos_y &gt; y) {
-        if (abs(y - dist_pos_y) &lt;= actionSpeed) {
-            y = dist_pos_y;
-        } else {
-            y += actionSpeed;
+            <string>///Inspect Neighbours Color
+/*
+var rightBlock = noone;
+var leftBlock = noone;
+var bottomBlock = noone;
+var topBlock = noone;
+
+rightBlock = instance_position(self.x + self.sprite_width, self.y, oBlock);
+leftBlock = instance_position(self.x - self.sprite_width, self.y, oBlock);
+bottomBlock = instance_position(self.x, self.y + self.sprite_height, oBlock);
+topBlock = instance_position(self.x, self.y - self.sprite_height, oBlock);
+
+if ( rightBlock )
+{
+    if ( isDomino(rightBlock) ) {
+            if (self.dvalue + rightBlock.dvalue) &gt;= 8 {
+                global.hasBlocksSameColor = true;
+                self.matched = true;
+                instance_create(x,y,obj_Point);            
+            }
         }
-    }
-    else if (dist_pos_y &lt; y) {
-        if (abs(y - dist_pos_y) &lt;= actionSpeed) {
-            y = dist_pos_y;
-        } else {
-            y -= actionSpeed;
-        }
-    }
-    
 }
-else if dirBlock == directionBlockEnum.XX {
-    if (dist_pos_x &gt; x) {
-        if (abs(x - dist_pos_x) &lt;= actionSpeed) {
-            x = dist_pos_x;
-        } else {
-            x += actionSpeed;
+if ( leftBlock )
+{
+    if ( self.sprite_index == spr_Model_4 )
+    {
+        if (leftBlock.sprite_index == spr_Model_2) {
+            global.hasBlocksSameColor = true;
+            //self.autoDestroy = true;
+            self.matched = true;
+            leftBlock.matched = true;
+            //instance_create(x,y,obj_Point);
+            //instance_create(leftBlock.x, leftBlock.y, obj_PointRed);
         }
     }
-    else if (dist_pos_x &lt; x) {
-        if (abs(x - dist_pos_x) &lt;= actionSpeed) {
-            x = dist_pos_x;
-        } else {
-            x -= actionSpeed;
+    else if ( isDomino(self.id) )
+    {
+        if ( isDomino(leftBlock) ) {
+            if (self.dvalue + leftBlock.dvalue) &gt;= 8 {
+                global.hasBlocksSameColor = true;
+                self.matched = true;
+                instance_create(x,y,obj_Point);            
+            }
         }
     }
-    
+}
+if ( bottomBlock )
+{
+
+    if ( self.sprite_index == spr_Model_3 )
+    {
+        if (bottomBlock.sprite_index == spr_Model_1) {
+            global.hasBlocksSameColor = true;
+            //self.autoDestroy = true;
+            self.matched = true;
+            bottomBlock.matched = true;
+            //instance_create(x,y,obj_Point);
+            //instance_create(bottomBlock.x, bottomBlock.y, obj_PointRed);
+        }
+    }
+    else if ( isDomino(self.id) )
+    {
+        if ( isDomino(bottomBlock) ) {
+            if (self.dvalue + bottomBlock.dvalue) &gt;= 8 {
+                global.hasBlocksSameColor = true;
+                self.matched = true;
+                instance_create(x,y,obj_Point);            
+            }
+        }
+    }
+}
+if ( topBlock )
+{
+            show_debug_message("topBlock_1 = " + string(topBlock));
+    if ( self.sprite_index == spr_Model_1 )
+    {
+        if (topBlock.sprite_index == spr_Model_3) {
+            global.hasBlocksSameColor = true;
+            //self.autoDestroy = true;
+            self.matched = true;
+            topBlock.matched = true;
+            //instance_create(x,y,obj_Point);
+            //instance_create(topBlock.x, topBlock.y, obj_PointRed);
+        }
+    }
+    else if ( isDomino(self.id) )
+    {
+        if ( isDomino(topBlock) ) {
+            show_debug_message("self.id = " + string(self.id));
+            show_debug_message("topBlock = " + string(topBlock));
+            if (self.dvalue + topBlock.dvalue) &gt;= 8 {
+                global.hasBlocksSameColor = true;
+                self.matched = true;
+                instance_create(x,y,obj_Point);            
+            }
+        }
+    }
 }
 
-
-if (dist_pos_y == y and dist_pos_x == x) {
-    dirBlock = directionBlockEnum.NONE;
-    state = blockstate.STATIC;
-    dist_pos_x = -1;
-    dist_pos_y = -1;
-}
+inspectedColor = true;*/
 </string>
           </argument>
         </arguments>
@@ -285,29 +262,17 @@ if (dist_pos_y == y and dist_pos_x == x) {
       </action>
       <action>
         <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
+        <id>424</id>
+        <kind>2</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
         <functionname></functionname>
         <codestring></codestring>
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Destroy
-/*
-if autoDestroy {
-    //image_alpha = 0.5;
-    instance_destroy();
-}*/
-</string>
-          </argument>
-        </arguments>
       </action>
     </event>
   </events>

@@ -10,6 +10,7 @@
     <sprite>sprites\spr_Yellow</sprite>
     <sprite>sprites\sprPlayButton</sprite>
     <sprite>sprites\sPoint</sprite>
+    <sprite>sprites\sPointRed</sprite>
     <sprite>sprites\spr_Brick</sprite>
     <sprite>sprites\spr_Blue</sprite>
     <sprites name="Models">
@@ -40,6 +41,7 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\removeInspectedColor.gml</script>
+    <script>scripts\isDomino.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_GameController</object>
@@ -58,6 +60,7 @@
       <object>objects\oModel_2</object>
       <object>objects\oModel_3</object>
       <object>objects\oModel_4</object>
+      <object>objects\oDomino</object>
       <object>objects\obj_Domino_1</object>
       <object>objects\obj_Domino_2</object>
       <object>objects\obj_Domino_3</object>
@@ -74,6 +77,7 @@
     <object>objects\obj_NextRoom</object>
     <object>objects\obj_BackButton</object>
     <object>objects\obj_Point</object>
+    <object>objects\obj_PointRed</object>
     <object>objects\obj_Brick</object>
     <object>objects\obj_Icarus</object>
     <object>objects\oDestiny</object>

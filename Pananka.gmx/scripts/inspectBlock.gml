@@ -1,4 +1,4 @@
-
+	
 var block = argument0;
 sprite = argument1;
 add = argument2;
