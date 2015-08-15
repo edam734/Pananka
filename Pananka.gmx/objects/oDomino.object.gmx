@@ -30,6 +30,42 @@
 event_inherited();
 
 dvalue = 0;
+
+//points initial coordenates
+
+x_i_r = x + 26;
+x_i_c = x;
+x_i_l = x - 26;
+
+y_i_p = - 18;
+
+//upper left
+x_f_ul = x - 26;
+y_f_ul = y - 26;
+
+//center left
+x_f_cl = x - 26;
+y_f_cl = y;
+
+//bottom left
+x_f_bl = x - 26;
+y_f_bl = y + 26;
+
+//center
+x_f_c = x;
+y_f_c = y;
+
+//upper right
+x_f_ur = x + 26;
+y_f_ur = y - 26;
+
+//center right
+x_f_cr = x + 26;
+y_f_cr = y;
+
+//bottom right
+x_f_br = x + 26;
+y_f_br = y + 26;
 </string>
           </argument>
         </arguments>
@@ -273,6 +309,142 @@ inspectedColor = true;*/
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Sprite index for dominoe
+
+if self.sprite_index == spr_Domino_1 
+    {
+    dvalue = 1;
+    }
+else if self.sprite_index == spr_Domino_2
+    {
+    dvalue = 2;
+    }
+else if self.sprite_index == spr_Domino_3
+    {
+    dvalue = 3;
+    }
+else if self.sprite_index == spr_Domino_4
+    {
+    dvalue = 4;
+    }
+else if self.sprite_index == spr_Domino_5
+    {
+    dvalue = 5;
+    }
+else if self.sprite_index == spr_Domino_6
+    {
+    dvalue = 6;
+    }
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///create qs
+
+var q1 = instance_create(x_i_1, y_i, obj_q4);
+var q2 = instance_create(x_i_2, y_i, obj_q4);
+var q3 = instance_create(x_i_3, y_i, obj_q4);
+var q4 = instance_create(x_i_4, y_i, obj_q4);
+var q5 = instance_create(x_i_1, y_i, obj_q4);
+var q6 = instance_create(x_i_2, y_i, obj_q4);
+var q7 = instance_create(x_i_3, y_i, obj_q4);
+var q8 = instance_create(x_i_4, y_i, obj_q4);
+var q9 = instance_create(x_i_1, y_i, obj_q4);
+var q10 = instance_create(x_i_2, y_i, obj_q4);
+var q11 = instance_create(x_i_3, y_i, obj_q4);
+var q12 = instance_create(x_i_4, y_i, obj_q4);
+var q13 = instance_create(x_i_1, y_i, obj_q4);
+var q14 = instance_create(x_i_2, y_i, obj_q4);
+var q15 = instance_create(x_i_3, y_i, obj_q4);
+var q16 = instance_create(x_i_4, y_i, obj_q4);
+
+q1.destiny_x = x_f_1;
+q1.destiny_y = y_f_1;
+
+q2.destiny_x = x_f_2;
+q2.destiny_y = y_f_2;
+
+q3.destiny_x = x_f_3;
+q3.destiny_y = y_f_3;
+
+q4.destiny_x = x_f_4;
+q4.destiny_y = y_f_4;
+
+q5.destiny_x = x_f_5;
+q5.destiny_y = y_f_5;
+
+q6.destiny_x = x_f_6;
+q6.destiny_y = y_f_6;
+
+q7.destiny_x = x_f_7;
+q7.destiny_y = y_f_7;
+
+q8.destiny_x = x_f_8;
+q8.destiny_y = y_f_8;
+
+q9.destiny_x = x_f_9;
+q9.destiny_y = y_f_9;
+
+q10.destiny_x = x_f_10;
+q10.destiny_y = y_f_10;
+
+q11.destiny_x = x_f_11;
+q11.destiny_y = y_f_11;
+
+q12.destiny_x = x_f_12;
+q12.destiny_y = y_f_12;
+
+q13.destiny_x = x_f_13;
+q13.destiny_y = y_f_13;
+
+q14.destiny_x = x_f_14;
+q14.destiny_y = y_f_14;
+
+q15.destiny_x = x_f_15;
+q15.destiny_y = y_f_15;
+
+q16.destiny_x = x_f_16;
+q16.destiny_y = y_f_16;
+
+</string>
+          </argument>
+        </arguments>
       </action>
     </event>
   </events>

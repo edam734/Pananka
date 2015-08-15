@@ -2,7 +2,7 @@
 <object>
   <spriteName>spr_Domino_4</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>oDomino</parentName>
@@ -30,6 +30,68 @@
 event_inherited();
 /*
 dvalue = 4;*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Heritage
+event_inherited();
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///create points
+
+var p1 = instance_create(x_i_l, y_i_p, obj_Dpoint);
+var p2 = instance_create(x_i_l, y_i_p, obj_Dpoint);
+var p3 = instance_create(x_i_r, y_i_p, obj_Dpoint);
+var p4 = instance_create(x_i_r, y_i_p, obj_Dpoint);
+
+p1.destiny_x = x_f_bl;
+p1.destiny_y = y_f_bl;
+
+p2.destiny_x = x_f_ul;
+p2.destiny_y = y_f_ul;
+
+p3.destiny_x = x_f_ur;
+p3.destiny_y = y_f_ur;
+
+p4.destiny_x = x_f_br;
+p4.destiny_y = y_f_br;
 </string>
           </argument>
         </arguments>
