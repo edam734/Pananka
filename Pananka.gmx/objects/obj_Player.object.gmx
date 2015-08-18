@@ -240,6 +240,34 @@ if autoDestroy {
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Stop
+if obj_Player.state == playerstate.STATIC 
+{
+    obj_Player.neighbour = noone;
+    obj_Player.dir = directionEnum.NONE;
+    mouse_previous_x = -1;
+    mouse_previous_y = -1;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="6" enumb="56">
       <action>
@@ -364,7 +392,7 @@ if dir != directionEnum.NONE {
                   
                 new_neighbour = instance_position(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), obj_SpaceMove);
                 //instance_create(self.x, self.y + sign(diff_y)*(self.sprite_height/2+abs(diff_y)), obj_Point); // draw
-                    
+                
                 if (new_neighbour != neighbour) {
                     if !new_neighbour {
                             
@@ -394,10 +422,9 @@ if dir != directionEnum.NONE {
                 
                 new_neighbour = instance_position(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_SpaceMove);
                 //instance_create(self.x + sign(diff_x)*(self.sprite_width/2+abs(diff_x)), self.y, obj_Point); // draw
-                    
+                
                 if (new_neighbour != neighbour) {
                     if !new_neighbour {
-                            
                         if ((sign(diff_x) &lt; 0 and last_fit_x &gt; x) or (sign(diff_x) &gt; 0 and last_fit_x &lt; x)) {
                             self.x = last_fit_x + sign(diff_x)*self.sprite_width;
                         }
