@@ -454,7 +454,17 @@ show_debug_message("underlying_object = " + string(underlying_object));
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>show_debug_message("Room Controller Id = " + string(self.id));
+            <string>///Room execution
+show_debug_message("Room Controller Id = " + string(self.id));
+
+if room_get_name(room) == "test_5_Room" {
+    var portal_1 = instance_position(144,384,obj_portal);
+    var portal_2 = instance_position(336,240,obj_portal);
+    if (portal_1 and portal_2) {
+        portal_1.terminal = portal_2;
+        portal_2.terminal = portal_1;
+    }
+}
 </string>
           </argument>
         </arguments>

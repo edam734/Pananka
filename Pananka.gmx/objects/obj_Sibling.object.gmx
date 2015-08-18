@@ -48,6 +48,8 @@ actionSpeed = 24 * 2;
 dist_pos_x = -1;
 dist_pos_y = -1;
 
+last_fit_x = x;
+last_fit_y = y;
 </string>
           </argument>
         </arguments>
@@ -305,6 +307,39 @@ if autoDestroy {
     //image_alpha = 0.5;
     instance_destroy();
 }*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Last Fit
+if x &gt;= last_fit_x + self.sprite_width {
+    last_fit_x += self.sprite_width;
+    }
+if x &lt;= last_fit_x - self.sprite_width {
+    last_fit_x -= self.sprite_width;
+    }
+if y &gt;= last_fit_y + self.sprite_height {
+    last_fit_y += self.sprite_height;
+    }
+if y &lt;= last_fit_y - self.sprite_height {
+    last_fit_y -= self.sprite_height;
+    }
 </string>
           </argument>
         </arguments>

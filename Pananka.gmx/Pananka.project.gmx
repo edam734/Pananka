@@ -38,6 +38,7 @@
     <sprite>sprites\spr_Selector</sprite>
     <sprite>sprites\spr_Icarus</sprite>
     <sprite>sprites\spr_Destiny</sprite>
+    <sprite>sprites\spr_portal</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -78,13 +79,16 @@
       <object>objects\obj_q4</object>
       <object>objects\obj_Dpoint</object>
     </objects>
+    <objects name="Special Objects">
+      <object>objects\obj_portal</object>
+      <object>objects\oDestiny</object>
+      <object>objects\obj_Icarus</object>
+    </objects>
     <object>objects\obj_NextRoom</object>
     <object>objects\obj_BackButton</object>
     <object>objects\obj_Point</object>
     <object>objects\obj_PointRed</object>
     <object>objects\obj_Brick</object>
-    <object>objects\obj_Icarus</object>
-    <object>objects\oDestiny</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\firstRoom</room>
@@ -92,6 +96,7 @@
     <room>rooms\test_2_Room</room>
     <room>rooms\test_3_Room</room>
     <room>rooms\test_4_Room</room>
+    <room>rooms\test_5_Room</room>
   </rooms>
   <constants number="2">
     <constant name="SKIN_DEFAULT">spr_Red</constant>
