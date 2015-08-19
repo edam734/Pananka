@@ -257,10 +257,10 @@ if autoDestroy {
           <argument>
             <kind>1</kind>
             <string>///Stop
-if obj_Player.state == playerstate.STATIC 
+if state == playerstate.STATIC 
 {
-    obj_Player.neighbour = noone;
-    obj_Player.dir = directionEnum.NONE;
+    neighbour = noone;
+    dir = directionEnum.NONE;
     mouse_previous_x = -1;
     mouse_previous_y = -1;
 }

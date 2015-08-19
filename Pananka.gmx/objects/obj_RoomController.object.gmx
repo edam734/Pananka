@@ -425,12 +425,22 @@ if underlying_object {
         show_debug_message("gravity__ = " + string(gravity__));
         //image_alpha = 0.5;
     }
+    
     // if its a block
-    if underlying_object == instance_position(mouse_x, mouse_y, oBlock)
-        {
+    if underlying_object == instance_position(mouse_x, mouse_y, oBlock) {
         show_debug_message("matched? = " + string(underlying_object.matched));
-        }
+    }
+    
+    // it's a portal
+    if underlying_object == instance_position(mouse_x, mouse_y,obj_portal) {
+        show_debug_message("It's a portal with id = " + string(underlying_object.id));
+        show_debug_message("left = " + string(underlying_object.left));
+        show_debug_message("right = " + string(underlying_object.right));
+        show_debug_message("up = " + string(underlying_object.up));
+        show_debug_message("down = " + string(underlying_object.down));
+    }
 }
+
 show_debug_message("underlying_object = " + string(underlying_object));
 </string>
           </argument>
@@ -458,6 +468,14 @@ show_debug_message("underlying_object = " + string(underlying_object));
 show_debug_message("Room Controller Id = " + string(self.id));
 
 if room_get_name(room) == "test_5_Room" {
+    var portal_1 = instance_position(144,384,obj_portal);
+    var portal_2 = instance_position(336,240,obj_portal);
+    if (portal_1 and portal_2) {
+        portal_1.terminal = portal_2;
+        portal_2.terminal = portal_1;
+    }
+}
+if room_get_name(room) == "test_6_Room" {
     var portal_1 = instance_position(144,384,obj_portal);
     var portal_2 = instance_position(336,240,obj_portal);
     if (portal_1 and portal_2) {

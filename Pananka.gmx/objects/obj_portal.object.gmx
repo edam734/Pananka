@@ -98,16 +98,19 @@ playerInsidePortal = false;
 
 if ( left ) {
     otherBlock = instance_position(terminal.x + 96, terminal.y, obj_SpaceMove);
-    show_debug_message("Other Block is = " + string(otherBlock));
+    show_debug_message("Other Block in right is = " + string(otherBlock));
 }
 if ( right ) {
     otherBlock = instance_position(terminal.x - 96, terminal.y, obj_SpaceMove);
+    show_debug_message("Other Block in left is = " + string(otherBlock));
 }
 if ( up ) {
     otherBlock = instance_position(terminal.x, terminal.y + 96, obj_SpaceMove);
+    show_debug_message("Other Block in down is = " + string(otherBlock));
 }
 if ( down ) {
     otherBlock = instance_position(terminal.x, terminal.y - 96, obj_SpaceMove);
+    show_debug_message("Other Block in up is = " + string(otherBlock));
 }
 
 if ( right != 0 or left != 0 or  up != 0 or down != 0 ) {
@@ -118,6 +121,7 @@ if ( right != 0 or left != 0 or  up != 0 or down != 0 ) {
             with ( obj_Player ) 
             {
                 show_debug_message("BBBAAAANNNGGG!!!");
+                global.mouseActive = false;
                 goFit = true;
             }
         }
@@ -145,28 +149,28 @@ if ( right != 0 or left != 0 or  up != 0 or down != 0 ) {
             <kind>1</kind>
             <string>///When player's inside
 
-if self.y == obj_Player.y and self.x - obj_Player.x &lt; obj_Player.sprite_width {
+if self.y == obj_Player.y and self.x - obj_Player.x &lt; obj_Player.sprite_width and self.x - obj_Player.x &gt; 0 {
     if ( right == 0 and left == 0 and up == 0 and down == 0 ) 
     { 
         show_debug_message("Left!");
         left = 1;
     }
 }
-else if self.y == obj_Player.y and obj_Player.x - self.x &gt; -obj_Player.sprite_width {
+else if self.y == obj_Player.y and self.x - obj_Player.x &gt; -obj_Player.sprite_width and self.x - obj_Player.x &lt; 0 {
     if ( right == 0 and left == 0 and up == 0 and down == 0 ) 
     { 
         show_debug_message("right!");
         right = 1;
     }
 }
-else if self.x == obj_Player.x and self.y - obj_Player.y &lt; obj_Player.sprite_height {
+else if self.x == obj_Player.x and self.y - obj_Player.y &lt; obj_Player.sprite_height and self.y - obj_Player.y &gt; 0 {
     if ( right == 0 and left == 0 and up == 0 and down == 0 ) 
     { 
         show_debug_message("up!");
         up = 1;
     }
 }
-else if self.x == obj_Player.x and obj_Player.y - self.y &gt; -obj_Player.sprite_width {
+else if self.x == obj_Player.x and self.y - obj_Player.y &gt; -obj_Player.sprite_width and self.y - obj_Player.y &lt; 0 {
     if ( right == 0 and left == 0 and up == 0 and down == 0 ) 
     { 
         show_debug_message("down!");
@@ -214,7 +218,7 @@ if ( otherBlock ) {
         otherBlock.x = otherBlock.last_fit_x - dif;
     }
     else if ( right ) {
-        dif = (self.x - self.sprite_width/2) - (obj_Player.x + obj_Player.sprite_width/2);
+        dif = (self.x + self.sprite_width/2) - (obj_Player.x - obj_Player.sprite_width/2);
         otherBlock.x = otherBlock.last_fit_x + dif;
     }
     else if ( up ) {
@@ -222,7 +226,7 @@ if ( otherBlock ) {
         otherBlock.y = otherBlock.last_fit_y - dif;
     }
     else if ( down ) {
-        dif = (self.y - self.sprite_height/2) - (obj_Player.y + obj_Player.sprite_height/2);
+        dif = (self.y + self.sprite_height/2) - (obj_Player.y - obj_Player.sprite_height/2);
         otherBlock.y = otherBlock.last_fit_y + dif;
     }
     else {
