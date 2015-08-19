@@ -38,6 +38,11 @@ up = 0;
 down = 0;
 
 playerInsidePortal = false;
+
+originalPlaceOtherBlock_X = noone;
+originalPlaceOtherBlock_Y = noone;
+originalPlacePlayer_X = noone;
+originalPlacePlayer_Y = noone;
 </string>
           </argument>
         </arguments>
@@ -259,15 +264,27 @@ if ( otherBlock ) {
             <string>///Push Player Inside
 
 if self.y == obj_Player.y and abs(self.x - obj_Player.x) &lt; 48 {
+    if (otherBlock)
+    {
     global.mouseActive = false;
     playerInsidePortal = true;
+    }
 }
 else if self.x == obj_Player.x and  abs(self.y - obj_Player.y) &lt; 48 {
+    if (otherBlock)
+    {
     global.mouseActive = false;
     playerInsidePortal = true;
+    }
 }
  
 if playerInsidePortal {
+    // save original places from each block
+    originalPlaceOtherBlock_X = otherBlock.last_fit_x;
+    originalPlaceOtherBlock_Y = otherBlock.last_fit_y;
+    originalPlacePlayer_X = obj_Player.last_fit_x;
+    originalPlacePlayer_Y = obj_Player.last_fit_y;
+
     // reset player movement variables
     obj_Player.x = self.x;
     obj_Player.y = self.y;
@@ -276,6 +293,105 @@ if playerInsidePortal {
     otherBlock.x = terminal.x;
     otherBlock.y = terminal.y;
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>playerInsidePortal</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Teleport
+
+// save positions inside portal
+var temp_otherBlock_x = otherBlock.x;
+var temp_otherBlock_y = otherBlock.y;
+
+var temp_player_x = obj_Player.x;
+var temp_player_y = obj_Player.y;
+
+// teleportation
+obj_Player.x = temp_otherBlock_x;
+obj_Player.y = temp_otherBlock_y;
+
+otherBlock.x = temp_player_x;
+otherBlock.y = temp_player_y;
+
+// Set where each one should go
+obj_Player.dist_pos_x = originalPlaceOtherBlock_X;
+obj_Player.dist_pos_y = originalPlaceOtherBlock_Y;
+
+otherBlock.state = blockstate.ACTION;
+if otherBlock.x != originalPlacePlayer_X {
+    otherBlock.dirBlock = directionBlockEnum.XX;
+    otherBlock.dist_pos_x = originalPlacePlayer_X;
+}
+else if otherBlock.y != originalPlacePlayer_Y {
+    otherBlock.dirBlock = directionBlockEnum.YY;
+    otherBlock.dist_pos_y = originalPlacePlayer_Y;
+}
+
+playerInsidePortal = false;
 </string>
           </argument>
         </arguments>
