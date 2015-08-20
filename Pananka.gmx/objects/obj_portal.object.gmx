@@ -64,11 +64,11 @@ surround = noone;
         <codestring></codestring>
         <whoName>self</whoName>
         <relative>0</relative>
-        <isnot>-1</isnot>
+        <isnot>0</isnot>
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>playerInsidePortal &amp;&amp; teleporting</string>
+            <string>!playerInsidePortal &amp;&amp; !teleporting</string>
           </argument>
         </arguments>
       </action>

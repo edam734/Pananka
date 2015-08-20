@@ -489,6 +489,16 @@ if room_get_name(room) == "test_6_Room" {
         portal_2.terminal = portal_1;
     }
 }
+if room_get_name(room) == "test_7_Room" {
+    var portal_1 = instance_position(144,384,obj_portal);
+    var portal_2 = instance_position(336,240,obj_portal);
+    var portal_3 = instance_position(528,192,obj_portal);
+    if (portal_1 and portal_2 and portal_3) {
+        portal_1.terminal = portal_2;
+        portal_2.terminal = portal_3;
+        portal_3.terminal = portal_1;
+    }
+}
 </string>
           </argument>
         </arguments>

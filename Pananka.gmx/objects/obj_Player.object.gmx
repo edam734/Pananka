@@ -361,18 +361,7 @@ else if dir == directionEnum.XX {
     
 }
 
-/*
-show_debug_message("x = " + string(x));
-show_debug_message("dist_pos_x = " + string(dist_pos_x));
-show_debug_message("y = " + string(y));
-show_debug_message("dist_pos_y = " + string(dist_pos_y));
-*/
 if (dist_pos_y == y and dist_pos_x == x) {
-/*
-    show_debug_message("=========================================");
-    show_debug_message("VAI MUDAR PARA STATIC DEPOIS DO ACTION!!!");
-    show_debug_message("=========================================");
-    */
     dir = directionEnum.NONE;
     state = playerstate.STATIC;
     dist_pos_x = -1;

@@ -288,7 +288,7 @@ if (dist_pos_y == y and dist_pos_x == x) {
     state = blockstate.STATIC;
     dist_pos_x = -1;
     dist_pos_y = -1;
-    alarm[0] = 2;
+    //alarm[0] = 2;
 }
 </string>
           </argument>
