@@ -38,11 +38,14 @@ up = 0;
 down = 0;
 
 playerInsidePortal = false;
+teleporting = false;
 
 originalPlaceOtherBlock_X = noone;
 originalPlaceOtherBlock_Y = noone;
 originalPlacePlayer_X = noone;
 originalPlacePlayer_Y = noone;
+
+surround = noone;
 </string>
           </argument>
         </arguments>
@@ -65,7 +68,7 @@ originalPlacePlayer_Y = noone;
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>playerInsidePortal</string>
+            <string>playerInsidePortal &amp;&amp; teleporting</string>
           </argument>
         </arguments>
       </action>
@@ -370,28 +373,57 @@ var temp_otherBlock_y = otherBlock.y;
 var temp_player_x = obj_Player.x;
 var temp_player_y = obj_Player.y;
 
-// teleportation
+///* teleportation *///
 obj_Player.x = temp_otherBlock_x;
+obj_Player.last_fit_x = obj_Player.x;
 obj_Player.y = temp_otherBlock_y;
+obj_Player.last_fit_y = obj_Player.y;
+
 
 otherBlock.x = temp_player_x;
+otherBlock.last_fit_x = otherBlock.x;
 otherBlock.y = temp_player_y;
+otherBlock.last_fit_y = otherBlock.y;
 
-// Set where each one should go
+// set where each one should go
+obj_Player.state = playerstate.ACTION;
 obj_Player.dist_pos_x = originalPlaceOtherBlock_X;
 obj_Player.dist_pos_y = originalPlaceOtherBlock_Y;
+if obj_Player.x != originalPlaceOtherBlock_X {
+    obj_Player.dir = directionEnum.XX;
+}
+else if obj_Player.y != originalPlaceOtherBlock_Y {
+    obj_Player.dir = directionEnum.YY;
+}
+show_debug_message("obj_Player.x está em = " + string(obj_Player.x) + " e vai para " + string(obj_Player.dist_pos_x));
+show_debug_message("obj_Player.y está em = " + string(obj_Player.y) + " e vai para " + string(obj_Player.dist_pos_y));
+show_debug_message("obj_Player.last_fit_x = " + string(obj_Player.last_fit_x));
+show_debug_message("obj_Player.last_fit_y = " + string(obj_Player.last_fit_y));
+show_debug_message("com dir = " + string(obj_Player.dir));
 
 otherBlock.state = blockstate.ACTION;
+otherBlock.dist_pos_x = originalPlacePlayer_X;
+otherBlock.dist_pos_y = originalPlacePlayer_Y;
 if otherBlock.x != originalPlacePlayer_X {
     otherBlock.dirBlock = directionBlockEnum.XX;
-    otherBlock.dist_pos_x = originalPlacePlayer_X;
 }
 else if otherBlock.y != originalPlacePlayer_Y {
     otherBlock.dirBlock = directionBlockEnum.YY;
-    otherBlock.dist_pos_y = originalPlacePlayer_Y;
 }
+show_debug_message("otherBlock.x está em = " + string(otherBlock.x) + " e vai para " + string(otherBlock.dist_pos_x));
+show_debug_message("otherBlock.y está em = " + string(otherBlock.y) + " e vai para " + string(otherBlock.dist_pos_y));
+show_debug_message("otherBlock.last_fit_x = " + string(otherBlock.last_fit_x));
+show_debug_message("otherBlock.last_fit_y = " + string(otherBlock.last_fit_y));
+show_debug_message("com dirBlock = " + string(otherBlock.dirBlock));
+
+originalPlaceOtherBlock_X = noone;
+originalPlaceOtherBlock_Y = noone;
+originalPlacePlayer_X = noone;
+originalPlacePlayer_Y = noone;
 
 playerInsidePortal = false;
+
+teleporting = true;
 </string>
           </argument>
         </arguments>
@@ -409,6 +441,118 @@ playerInsidePortal = false;
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>teleporting</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Teleporting
+
+if obj_Player.state == playerstate.STATIC
+    {
+    teleporting = false;
+    }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Surround
+if ( otherBlock and !surround ) {
+    surround = instance_create(otherBlock.x, otherBlock.y, obj_surround);
+    surround.depth = surround.depth - 1;
+}
+
+if ( otherBlock and surround ) {
+    surround.x = otherBlock.x;
+    surround.y = otherBlock.y;
+}
+
+if ( !otherBlock and surround ) {
+    with surround
+    {
+    instance_destroy();
+    }
+    surround = noone;
+}
+</string>
+          </argument>
+        </arguments>
       </action>
     </event>
   </events>

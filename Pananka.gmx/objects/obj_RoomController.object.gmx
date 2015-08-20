@@ -429,6 +429,12 @@ if underlying_object {
     // if its a block
     if underlying_object == instance_position(mouse_x, mouse_y, oBlock) {
         show_debug_message("matched? = " + string(underlying_object.matched));
+        show_debug_message("x = " + string(underlying_object.x));
+        show_debug_message("y = " + string(underlying_object.y));
+        show_debug_message("last_fit_x = " + string(underlying_object.last_fit_x));
+        show_debug_message("last_fit_y = " + string(underlying_object.last_fit_y));
+        show_debug_message("dist_pos_x = " + string(underlying_object.dist_pos_x));
+        show_debug_message("dist_pos_y = " + string(underlying_object.dist_pos_y));
     }
     
     // it's a portal

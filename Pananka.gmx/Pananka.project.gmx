@@ -39,6 +39,7 @@
     <sprite>sprites\spr_Icarus</sprite>
     <sprite>sprites\spr_Destiny</sprite>
     <sprite>sprites\spr_portal</sprite>
+    <sprite>sprites\spr_surround</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -83,6 +84,7 @@
       <object>objects\obj_portal</object>
       <object>objects\oDestiny</object>
       <object>objects\obj_Icarus</object>
+      <object>objects\obj_surround</object>
     </objects>
     <object>objects\obj_NextRoom</object>
     <object>objects\obj_BackButton</object>

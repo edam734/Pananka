@@ -35,11 +35,13 @@ selector.player = self.id; // this player
 sprite_index = SKIN_DEFAULT;
 neighbour = -1;
 MAX_SPEED = 32;
+actionSpeed = 24 * 2;
 
 enum playerstate {
     STATIC, 
     MOVING, 
-    FALLING
+    FALLING,
+    ACTION
     }
 state = playerstate.STATIC;
 
@@ -272,6 +274,172 @@ if state == playerstate.STATIC
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>408</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>-1</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_if</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>state == playerstate.ACTION</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>422</id>
+        <kind>1</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Step
+
+if dir == directionEnum.YY {
+    if (dist_pos_y &gt; y) {
+        if (abs(y - dist_pos_y) &lt;= actionSpeed) {
+            y = dist_pos_y;
+        } else {
+            y += actionSpeed;
+        }
+    }
+    else if (dist_pos_y &lt; y) {
+        if (abs(y - dist_pos_y) &lt;= actionSpeed) {
+            y = dist_pos_y;
+        } else {
+            y -= actionSpeed;
+        }
+    }
+    
+}
+else if dir == directionEnum.XX {
+    if (dist_pos_x &gt; x) {
+        if (abs(x - dist_pos_x) &lt;= actionSpeed) {
+            x = dist_pos_x;
+        } else {
+            x += actionSpeed;
+        }
+    }
+    else if (dist_pos_x &lt; x) {
+        if (abs(x - dist_pos_x) &lt;= actionSpeed) {
+            x = dist_pos_x;
+        } else {
+            x -= actionSpeed;
+        }
+    }
+    
+}
+
+/*
+show_debug_message("x = " + string(x));
+show_debug_message("dist_pos_x = " + string(dist_pos_x));
+show_debug_message("y = " + string(y));
+show_debug_message("dist_pos_y = " + string(dist_pos_y));
+*/
+if (dist_pos_y == y and dist_pos_x == x) {
+/*
+    show_debug_message("=========================================");
+    show_debug_message("VAI MUDAR PARA STATIC DEPOIS DO ACTION!!!");
+    show_debug_message("=========================================");
+    */
+    dir = directionEnum.NONE;
+    state = playerstate.STATIC;
+    dist_pos_x = -1;
+    dist_pos_y = -1;
+    alarm[0] = 5; // restart state and activate mouse
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>424</id>
+        <kind>2</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>0</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Last Fit 
+
+/**
+ * Assert last fit coordenates to a position multiple of 96 
+ * where the player can fit (the last where he passed)
+ */
+if x &gt;= last_fit_x + self.sprite_width {
+    last_fit_x += self.sprite_width;
+    global.checkupOnRoomSprites = true;
+    }
+if x &lt;= last_fit_x - self.sprite_width {
+    last_fit_x -= self.sprite_width;
+    global.checkupOnRoomSprites = true;
+    }
+if y &gt;= last_fit_y + self.sprite_height {
+    last_fit_y += self.sprite_height;
+    global.checkupOnRoomSprites = true;
+    }
+if y &lt;= last_fit_y - self.sprite_height {
+    last_fit_y -= self.sprite_height;
+    global.checkupOnRoomSprites = true;
+    }
+    
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="6" enumb="56">
       <action>
@@ -452,48 +620,6 @@ if dir != directionEnum.NONE {
     }
 }
 
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Last Fit Arrangement
-
-/**
- * Assert last fit coordenates to a position multiple of 96 
- * where the player can fit (the last where he passed)
- */
-if x &gt;= last_fit_x + self.sprite_width {
-    last_fit_x += self.sprite_width;
-    global.checkupOnRoomSprites = true;
-    }
-if x &lt;= last_fit_x - self.sprite_width {
-    last_fit_x -= self.sprite_width;
-    global.checkupOnRoomSprites = true;
-    }
-if y &gt;= last_fit_y + self.sprite_height {
-    last_fit_y += self.sprite_height;
-    global.checkupOnRoomSprites = true;
-    }
-if y &lt;= last_fit_y - self.sprite_height {
-    last_fit_y -= self.sprite_height;
-    global.checkupOnRoomSprites = true;
-    }
 </string>
           </argument>
         </arguments>
