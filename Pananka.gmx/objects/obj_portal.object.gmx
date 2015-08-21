@@ -30,6 +30,7 @@
 /* When the room starts, this could not be null. */
 terminal = noone;
 otherBlock = noone;
+foundOtherBlock = false;
 
 /* comming block direction */
 right = 0;
@@ -46,6 +47,8 @@ originalPlacePlayer_X = noone;
 originalPlacePlayer_Y = noone;
 
 surround = noone;
+
+isDoublePlayer = false;
 </string>
           </argument>
         </arguments>
@@ -102,28 +105,41 @@ surround = noone;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Get Other Ends Block
+            <string>///Get Other Block
 
-if ( left ) {
-    otherBlock = instance_position(terminal.x + 96, terminal.y, obj_SpaceMove);
-    show_debug_message("Other Block in right is = " + string(otherBlock));
+if !foundOtherBlock
+{
+    if ( left ) {
+        otherBlock = instance_position(terminal.x + 96, terminal.y, obj_SpaceMove);
+        foundOtherBlock = true;
+        show_debug_message("Other Block in right is = " + string(otherBlock));
+    }
+    else if ( right ) {
+        otherBlock = instance_position(terminal.x - 96, terminal.y, obj_SpaceMove);
+        foundOtherBlock = true;
+        show_debug_message("Other Block in left is = " + string(otherBlock));
+    }
+    else if ( up ) {
+        otherBlock = instance_position(terminal.x, terminal.y + 96, obj_SpaceMove);
+        foundOtherBlock = true;
+        show_debug_message("Other Block in down is = " + string(otherBlock));
+    }
+    else if ( down ) {
+        otherBlock = instance_position(terminal.x, terminal.y - 96, obj_SpaceMove);
+        foundOtherBlock = true;
+        show_debug_message("Other Block in up is = " + string(otherBlock));
+    }
 }
-if ( right ) {
-    otherBlock = instance_position(terminal.x - 96, terminal.y, obj_SpaceMove);
-    show_debug_message("Other Block in left is = " + string(otherBlock));
-}
-if ( up ) {
-    otherBlock = instance_position(terminal.x, terminal.y + 96, obj_SpaceMove);
-    show_debug_message("Other Block in down is = " + string(otherBlock));
-}
-if ( down ) {
-    otherBlock = instance_position(terminal.x, terminal.y - 96, obj_SpaceMove);
-    show_debug_message("Other Block in up is = " + string(otherBlock));
+
+if otherBlock and otherBlock == instance_position(otherBlock.x, otherBlock.y, obj_Player) {
+        otherBlock = createDoublePlayer(obj_Player.id);
+        isDoublePlayer = true;
 }
 
 if ( right != 0 or left != 0 or  up != 0 or down != 0 ) {
     if ( !otherBlock ) 
     {
+        foundOtherBlock = false;
         if obj_Player.x != obj_Player.last_fit_x or obj_Player.y != obj_Player.last_fit_y {
             // set player back!
             with ( obj_Player ) 
@@ -135,6 +151,8 @@ if ( right != 0 or left != 0 or  up != 0 or down != 0 ) {
         }
     }
 }
+
+
 </string>
           </argument>
         </arguments>
@@ -241,7 +259,16 @@ if ( otherBlock ) {
         show_debug_message("otherBlock " + string(otherBlock) + " FITED!!");
         otherBlock.x = otherBlock.last_fit_x;
         otherBlock.y = otherBlock.last_fit_y;
+        if ( isDoublePlayer ) {
+            // o buplo do player é destruído
+            with ( otherBlock ) 
+                {
+                instance_destroy();
+                }
+            isDoublePlayer = false;  
+        }
         otherBlock = noone;
+        foundOtherBlock = false;
     }
 }
 </string>

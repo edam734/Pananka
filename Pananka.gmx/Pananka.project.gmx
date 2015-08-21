@@ -46,6 +46,7 @@
   <scripts name="scripts">
     <script>scripts\removeInspectedColor.gml</script>
     <script>scripts\isDomino.gml</script>
+    <script>scripts\createDoublePlayer.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_GameController</object>
@@ -101,6 +102,7 @@
     <room>rooms\test_5_Room</room>
     <room>rooms\test_6_Room</room>
     <room>rooms\test_7_Room</room>
+    <room>rooms\test_8_Room</room>
   </rooms>
   <constants number="2">
     <constant name="SKIN_DEFAULT">spr_Red</constant>
