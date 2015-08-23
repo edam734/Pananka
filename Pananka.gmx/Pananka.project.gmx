@@ -113,6 +113,7 @@
     <room>rooms\test_7_Room</room>
     <room>rooms\test_8_Room</room>
     <room>rooms\test_9_Room</room>
+    <room>rooms\test_10_Room</room>
   </rooms>
   <constants number="2">
     <constant name="SKIN_DEFAULT">spr_Red</constant>

@@ -29,7 +29,7 @@
 
 underlyingBlock = noone;
 
-CATCH_SPEED = 1/2; // to accelerate, decreases the denominator
+CATCH_SPEED = 1/5; // to accelerate, decreases the denominator
 
 </string>
           </argument>
