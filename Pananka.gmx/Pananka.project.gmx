@@ -87,6 +87,10 @@
       <object>objects\obj_Icarus</object>
       <object>objects\obj_surround</object>
     </objects>
+    <objects name="Kept Objects">
+      <object>objects\obj_kept</object>
+      <object>objects\obj_kept_point</object>
+    </objects>
     <object>objects\obj_NextRoom</object>
     <object>objects\obj_BackButton</object>
     <object>objects\obj_Point</object>
@@ -103,6 +107,7 @@
     <room>rooms\test_6_Room</room>
     <room>rooms\test_7_Room</room>
     <room>rooms\test_8_Room</room>
+    <room>rooms\test_9_Room</room>
   </rooms>
   <constants number="2">
     <constant name="SKIN_DEFAULT">spr_Red</constant>

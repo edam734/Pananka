@@ -33,12 +33,12 @@ autoDestroy = false;
 inspectedColor = false;
 matched = false;
 
-
 dvalue = 0;
 
 changeAlpha = false;
 alpha = 1;
 
+keptObject = noone;
 </string>
           </argument>
         </arguments>
@@ -423,6 +423,33 @@ if ( self.autoDestroy ) {
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///keptObject
+
+if ( keptObject )
+{
+    keptObject.x = self.x;
+    keptObject.y = self.y;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="4" ename="obj_Brick">
       <action>
@@ -474,6 +501,34 @@ if (global.gravity__)
 {
 move_contact_solid(270,0);  
 vspeed = 0;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if ( !keptObject ) {
+    keptObject = instance_position(x,y,obj_kept);
+    if ( keptObject ) {
+        keptObject.depth = self.depth - 1;
+    }
 }
 </string>
           </argument>

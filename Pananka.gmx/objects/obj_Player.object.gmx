@@ -429,6 +429,62 @@ if y &lt;= last_fit_y - self.sprite_height {
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if ( !keptObject ) {
+
+    var right = instance_position(x+96, y, obj_Sibling);
+    var left = instance_position(x-96, y, obj_Sibling);
+    var up = instance_position(x, y-96, obj_Sibling);
+    var down = instance_position(x, y+96, obj_Sibling);
+    
+/* To Do the case when several 
+siblings have keptObject */
+    
+    if ( right ) {
+        if ( right.keptObject ) {
+            // give that to me
+            right.keptObject.destinyBlock = self.id;
+        }
+    }
+    if ( left ) {
+        if ( left.keptObject ) {
+            // give that to me
+            left.keptObject.destinyBlock = self.id;
+        }
+    }
+    if ( up ) {
+        if ( up.keptObject ) {
+            // give that to me
+            up.keptObject.destinyBlock = self.id;
+        }
+    }
+    if ( down ) {
+        if ( down.keptObject ) {
+            // give that to me
+            down.keptObject.destinyBlock = self.id;
+        }
+    }
+
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="6" enumb="56">
       <action>
@@ -708,6 +764,28 @@ if state == playerstate.STATIC {
       </action>
     </event>
     <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Heritage
+event_inherited();
+</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
