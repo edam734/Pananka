@@ -25,12 +25,23 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>destinyBlock = noone;
+            <string>///Init
 
-underlyingBlock = noone;
+sx = 1; // scale in xx
+sy = 1; // scale in yy
 
-CATCH_SPEED = 1/2; // to accelerate, decreases the denominator
+alpha = 1;
+SCALE_SPEED = 0;
 
+if self.id == instance_position(self.x,self.y,oRingEffect1) {
+    self.depth = -1001;
+    SCALE_SPEED = 0.8;
+} else if self.id == instance_position(self.x,self.y,oRingEffect2) {
+    self.depth = -1000;
+    SCALE_SPEED = 0.5;
+}
+
+origin = noone; // object to follow
 </string>
           </argument>
         </arguments>
@@ -53,52 +64,19 @@ CATCH_SPEED = 1/2; // to accelerate, decreases the denominator
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Take Action
-if ( destinyBlock )
-{    
-    if ( underlyingBlock.keptObject ) {
-        underlyingBlock.keptObject = noone; // get out
+            <string>///Destroy
+
+
+if alpha &lt;= 0 
+    {
+    instance_destroy();
     }
-    var dist_x = ( destinyBlock.x - self.x ) * CATCH_SPEED;
-    var dist_y = ( destinyBlock.y - self.y ) * CATCH_SPEED;
-    
-    if abs(destinyBlock.x - self.x) &lt; 15 {
-        self.x = destinyBlock.x;
-    } else {
-        self.x += dist_x;
-    }
-    
-    if abs(destinyBlock.y - self.y) &lt; 15 {
-        self.y = destinyBlock.y;
-    } else {
-        self.y += dist_y;
-    }
-    self.depth = -999;
-    show_debug_message("ainda n chegou ao destino");
-    // Arrived
-    if ( self.x == destinyBlock.x and self.y == destinyBlock.y ) {
-        show_debug_message("Já chegou ao destino");
-        destinyBlock.keptObject = self.id;
-        self.depth = destinyBlock.depth - 1;
-        underlyingBlock = destinyBlock;
-        // some animation
-        
-        destinyBlock = noone; // release variable
-        
-        // create animation
-        var animation_1 = instance_create(underlyingBlock.x,underlyingBlock.y,oRingEffect1);
-        var animation_2 = instance_create(underlyingBlock.x,underlyingBlock.y,oRingEffect2);
-        animation_1.origin = self.id;
-        animation_2.origin = self.id;
-    }
-    
-}
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="7" enumb="4">
+    <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -115,9 +93,18 @@ if ( destinyBlock )
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Where am I ?
+            <string>
+if origin {
+    x = origin.x;
+    y = origin.y;
+}
 
-underlyingBlock = instance_position(x,y,oBlock);
+draw_sprite_ext(sprite_index,0,x,y,sx,sy,0,-1,alpha);
+
+
+sx += SCALE_SPEED;
+sy += SCALE_SPEED;
+alpha -= 0.05;
 </string>
           </argument>
         </arguments>

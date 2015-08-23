@@ -40,6 +40,8 @@
     <sprite>sprites\spr_Destiny</sprite>
     <sprite>sprites\spr_portal</sprite>
     <sprite>sprites\spr_surround</sprite>
+    <sprite>sprites\sRingEffect1</sprite>
+    <sprite>sprites\sRingEffect2</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -90,6 +92,9 @@
     <objects name="Kept Objects">
       <object>objects\obj_kept</object>
       <object>objects\obj_kept_point</object>
+      <object>objects\oRing</object>
+      <object>objects\oRingEffect1</object>
+      <object>objects\oRingEffect2</object>
     </objects>
     <object>objects\obj_NextRoom</object>
     <object>objects\obj_BackButton</object>
