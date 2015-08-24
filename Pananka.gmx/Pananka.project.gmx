@@ -42,6 +42,7 @@
     <sprite>sprites\spr_surround</sprite>
     <sprite>sprites\sRingEffect1</sprite>
     <sprite>sprites\sRingEffect2</sprite>
+    <sprite>sprites\spr_bomb</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -95,6 +96,7 @@
       <object>objects\oRing</object>
       <object>objects\oRingEffect1</object>
       <object>objects\oRingEffect2</object>
+      <object>objects\obj_bomb</object>
     </objects>
     <object>objects\obj_NextRoom</object>
     <object>objects\obj_BackButton</object>
@@ -114,6 +116,7 @@
     <room>rooms\test_8_Room</room>
     <room>rooms\test_9_Room</room>
     <room>rooms\test_10_Room</room>
+    <room>rooms\test_11_Room</room>
   </rooms>
   <constants number="2">
     <constant name="SKIN_DEFAULT">spr_Red</constant>

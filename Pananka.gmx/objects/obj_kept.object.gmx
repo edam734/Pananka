@@ -29,7 +29,7 @@
 
 underlyingBlock = noone;
 
-CATCH_SPEED = 1/5; // to accelerate, decreases the denominator
+CATCH_SPEED = 1/3; // to accelerate, decreases the denominator
 
 </string>
           </argument>
@@ -53,7 +53,7 @@ CATCH_SPEED = 1/5; // to accelerate, decreases the denominator
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Take Action
+            <string>///Chase destiny Block
 if ( destinyBlock )
 {    
     if ( underlyingBlock.keptObject ) {
