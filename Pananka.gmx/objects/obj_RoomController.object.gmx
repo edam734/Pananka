@@ -240,11 +240,19 @@ if (!foundNotInspected) {
      * then finish all evaluation and go on with the game
      */
     if !hasBlocksSameColor
-        {
-        removeInspectedColor();
-        mouseActive = true;
-        checkupOnRoomSprites = false;
+    {
+        if instance_exists(obj_Icarus) {
+            // shit happens
+            if ( obj_Icarus.alarm[0] == -1) {
+                obj_Icarus.alarm[0] = 50;
+            }
+        } else {
+            // You'll able to go on
+            removeInspectedColor();
+            mouseActive = true;
+            checkupOnRoomSprites = false;
         }
+    }
     else 
     {
         // stop (go fit) the player and proceed to destruction
@@ -328,63 +336,44 @@ if (hasBlocksSameColor) {
 
     if (object_exists(obj_Player)) {
         var player = instance_position(obj_Player.x, obj_Player.y, obj_Player);
-        show_debug_message("PLAYER = " + string(player));
-        show_debug_message("obj_Player.id = " + string(obj_Player.id));
-        //with (obj_Player) {
-            // do this if only one time
-            if player.state == playerstate.MOVING and countStep == 0 {
-                show_debug_message("Vai fazer fit do player");
-                player.goFit = true;
-                countStep = 1
-            }
+        
+        // do this if only one time
+        if player.state == playerstate.MOVING and countStep == 0 {
+            player.goFit = true;
+            countStep = 1
+        }
             
-            if player.state == playerstate.STATIC and countStep == 1 {
-                show_debug_message("Vai accionar o alarme");
-                alarm[0] = 20; // animationDestroyBlocks duration
-                countStep = 2;
-                animationDestroyBlocks = true;
-                show_debug_message("Accionou o alarme? = "+  string(alarm[0]));
-            }
+        if player.state == playerstate.STATIC and countStep != 2 {
+            alarm[0] = 20; // animationDestroyBlocks duration
+            countStep = 2;
+            animationDestroyBlocks = true;
+        }
                     
-            // move on
-            if player.state == playerstate.STATIC and !animationDestroyBlocks and countStep == 2 {
-                show_debug_message("Completou o fit do player e vai reiniciar o contador countStep.");
-                countStep = 0;
-              
-                /*
-                 * Destroy all the blocks marked to be destroyed
-                 *
-                 */  
-                 /*
-                for (var i = instance_number(oBlock)-1; i &gt;= 0; i--) {
-                    var block = instance_find(oBlock, i);
-                    if ( block.matched ) {
-                        if (instance_position(block.x, block.y, obj_Player)) {
-                            // the player has special powers
-                        }
-                        else {
-                            block.autoDestroy = true;
-                        }
+        // move on
+        if player.state == playerstate.STATIC and !animationDestroyBlocks and countStep == 2 {
+            countStep = 0;
+             
+            if ( blocksToDestroy != noone ) {
+                for (var i = ds_list_size(blocksToDestroy)-1; i &gt;= 0; i-- ) {
+                    var block = ds_list_find_value(blocksToDestroy, i);
+                    if (instance_position(block.x, block.y, obj_Player)) {
+                        // the player has special powers
                     }
-                }*/
-                if ( blocksToDestroy != noone ) {
-                    for (var i = 0; i &lt; ds_list_size(blocksToDestroy); i++ ) {
-                        var block = ds_list_find_value(blocksToDestroy, i);
-                        if (instance_position(block.x, block.y, obj_Player)) {
-                            // the player has special powers
-                        }
-                        else {
-                            block.autoDestroy = true;
-                        }
+                    else {
+                        block.autoDestroy = true;
                     }
                 }
-                blocksToDestroy = noone;
-                gravity__ = true;
-                inspectBlocksFallen = true;
-                hasBlocksSameColor = false;
-                checkupOnRoomSprites = false;
             }
-        //}
+            for (var i = ds_list_size(blocksToDestroy)-1; i &gt;= 0; i--) {
+                ds_list_delete(blocksToDestroy,i);
+            }
+            ds_list_destroy(blocksToDestroy);
+            blocksToDestroy = noone;
+            gravity__ = true;
+            inspectBlocksFallen = true;
+            hasBlocksSameColor = false;
+            checkupOnRoomSprites = false;
+        }
 
     }
 }
@@ -446,31 +435,6 @@ if !mouseActive
             room_creation = true;
         }
     }
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///test alarm
-
-if alarm[0] != -1 {
-    show_debug_message("O alarm vale = " + string(alarm[0]));
 }
 </string>
           </argument>
@@ -614,34 +578,41 @@ if room_get_name(room) == "test_10_Room" {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if alarm[0] &gt; 0 {
-    show_debug_message("O alarm[0] é = " + string(alarm[0]));
+            <string>///Destroy Blocks Animation
+
+if alarm[0] &gt; 0 {
+
     if ( blocksToDestroy == noone ) {
-        show_debug_message("Vai encher a lista de blocos para destruír");
+        // fill the list of blocks to be destroyed
         blocksToDestroy = ds_list_create();
         for (var i = instance_number(oBlock)-1; i &gt;= 0; i--) {
-        var block = instance_find(oBlock, i);
-            if ( block.matched ) {/*
+            var block = instance_find(oBlock, i);
+            if ( block.matched ) {
                 if (instance_position(block.x, block.y, obj_Player)) {
+                    // TODO:
                     // the player has special powers
+                    // don't add it to the list, for now....
+                    block.inspectedColor = false; // clean-it, for now...
                 }
-                else {*/
-                    // add block to the list for animation
+                else {
                     ds_list_add(blocksToDestroy, block);
                 }
             }
         }
-    //}
-    show_debug_message("A lista ficou com tamanho = " + string(ds_list_size(blocksToDestroy)));
+    }
     
-    for (var i = 0; i &lt; ds_list_size(blocksToDestroy); i++ ) {
+    // animate with two colors each block to destroy
+    for (var i = ds_list_size(blocksToDestroy) -1; i &gt;= 0; i-- ) {
         var block = ds_list_find_value(blocksToDestroy, i);
         
+        var color = -1;
+        
         if (alarm[0] mod 2 == 0) {
-            draw_rectangle_color(block.x-48, block.y-48, block.x+48, block.y+48, c_lime, c_lime, c_lime, c_lime, false); 
+            color = c_lime; 
         } else {
-            draw_rectangle_color(block.x-48, block.y-48, block.x+48, block.y+48, c_white, c_white, c_white, c_white, false); 
+            color = c_white; 
         }
+        draw_rectangle_color(block.x-48, block.y-48, block.x+48, block.y+48, color, color, color, color, false);
     }
 }
 </string>

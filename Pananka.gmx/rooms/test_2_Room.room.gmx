@@ -62,11 +62,10 @@
     <instance objName="oModel_1" x="240" y="240" name="inst_B396F7E5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oModel_2" x="336" y="336" name="inst_5F9640D6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oModel_3" x="240" y="336" name="inst_692DE292" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oModel_4" x="144" y="48" name="inst_C8159B4D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oModel_4" x="240" y="144" name="inst_C8159B4D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oModel_4" x="48" y="240" name="inst_E4F9162F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oModel_2" x="48" y="336" name="inst_1324EBBD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oModel_2" x="48" y="144" name="inst_53487E08" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="oModel_2" x="240" y="144" name="inst_D2FDF19A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oModel_3" x="144" y="240" name="inst_0F4C463F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oModel_3" x="432" y="336" name="inst_3E0340C2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Brick" x="48" y="624" name="inst_EE6D2537" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -85,6 +84,7 @@
     <instance objName="oModel_2" x="144" y="336" name="inst_62FAF6AD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="oDestiny" x="48" y="48" name="inst_7B2FB259" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_NextRoom" x="720" y="192" name="inst_68018630" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="oModel_4" x="144" y="48" name="inst_919D3591" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
