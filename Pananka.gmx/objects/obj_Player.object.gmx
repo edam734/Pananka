@@ -807,13 +807,25 @@ if room_get_name(room) == "test_2_Room"
     {
     self.sprite_index = spr_Model_1;
     }
-if room_get_name(room) == "test_3_Room"
+else if room_get_name(room) == "test_3_Room"
     {
     self.sprite_index = spr_Domino_2;
     }
-if room_get_name(room) == "test_11_Room"
+else if room_get_name(room) == "test_11_Room"
     {
     self.sprite_index = spr_Blue;
+    }
+else if room_get_name(room) == "test_12_Room"
+    {
+    self.sprite_index = spr_Model_3;
+    }
+else if room_get_name(room) == "test_13_Room"
+    {
+    self.sprite_index = spr_Model_2;
+    }
+else if room_get_name(room) == "test_14_Room"
+    {
+    self.sprite_index = spr_Model_2;
     }
 </string>
           </argument>
