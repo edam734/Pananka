@@ -29,7 +29,7 @@
 
 globalvar
 mouseActive, checkupOnRoomSprites, inspectBlocksFallen, hasBlocksSameColor, 
-gravity__, room_creation, icarusCreated;
+gravity__, room_creation, icarusCreated, allBlocksAreSolid, countSolid;
 
 mouseActive = false;
 checkupOnRoomSprites = false;
@@ -38,11 +38,42 @@ hasBlocksSameColor = false;
 gravity__ = false;
 room_creation = false;
 icarusCreated = false;
+allBlocksAreSolid = false;
+countSolid = 0;
 
 inspectBlockToDestroy = false;
 countStep = 0;
 animationDestroyBlocks = false;
 blocksToDestroy = noone;
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Go inspect Fallen 
+
+// (alarm activated in oBlock)
+
+inspectBlocksFallen = true;
 </string>
           </argument>
         </arguments>
@@ -147,6 +178,7 @@ if (!foundFallingBlock)
     {
     show_debug_message("Todos os blocos já caíram.");
     removeInspectedColor();
+    allBlocksAreSolid = false;
     gravity__ = false;
     inspectBlocksFallen = false;
     checkupOnRoomSprites = true;
@@ -370,7 +402,7 @@ if (hasBlocksSameColor) {
             ds_list_destroy(blocksToDestroy);
             blocksToDestroy = noone;
             gravity__ = true;
-            inspectBlocksFallen = true;
+            //inspectBlocksFallen = true;
             hasBlocksSameColor = false;
             checkupOnRoomSprites = false;
         }

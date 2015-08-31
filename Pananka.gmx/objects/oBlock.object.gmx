@@ -41,6 +41,7 @@ alpha = 1;
 keptObject = noone;
 
 ICARUS_RANDOM_VALUE = 4;
+
 </string>
           </argument>
         </arguments>
@@ -70,6 +71,16 @@ if (global.gravity__ == false) {
 }
 else {
     self.solid = true;
+    
+    if !global.allBlocksAreSolid then global.countSolid++;
+    
+    if global.countSolid &gt;= instance_number(oBlock)-1 and !global.allBlocksAreSolid {
+        global.allBlocksAreSolid = true;
+        global.countSolid = 0;
+        
+        // start to inspect if all blocks are falling 2 frames after this current
+        obj_RoomController.alarm[1] = 2;
+    }
 }
 </string>
           </argument>
@@ -127,12 +138,14 @@ else {
             <kind>1</kind>
             <string>///Gravity
 
-if (place_free(x, y+1)) {
+if global.allBlocksAreSolid {
+    if (place_free(x, y+1)) {
         vspeed += 2;
     }
     else {
         vspeed = 0;
     }
+}
 </string>
           </argument>
         </arguments>
@@ -471,10 +484,11 @@ if ( keptObject )
           <argument>
             <kind>1</kind>
             <string>///Collision
+
 if (global.gravity__)
 {
-move_contact_solid(270,0);  
-vspeed = 0;
+    move_contact_solid(270,0);  
+    vspeed = 0;
 }
 </string>
           </argument>
@@ -498,9 +512,11 @@ vspeed = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if other.vspeed &gt; 0 {
-    move_contact_solid(270,0);
-    other.vspeed = 0;
+            <string>
+if (global.gravity__)
+{
+    move_contact_solid(270,0);  
+    vspeed = 0;
 }
 </string>
           </argument>
@@ -527,8 +543,8 @@ vspeed = 0;
             <string>///Collision
 if (global.gravity__)
 {
-move_contact_solid(270,0);  
-vspeed = 0;
+    move_contact_solid(270,0);  
+    vspeed = 0;
 }
 </string>
           </argument>
