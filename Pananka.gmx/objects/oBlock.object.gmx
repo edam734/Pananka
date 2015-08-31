@@ -42,6 +42,9 @@ keptObject = noone;
 
 ICARUS_RANDOM_VALUE = 4;
 
+teleportColor = false;
+alphaTeleport = 1;
+
 </string>
           </argument>
         </arguments>
@@ -604,6 +607,18 @@ if changeAlpha {
 else {
     draw_self();
 }
+
+if teleportColor {
+    if alphaTeleport &gt; 0 {
+        draw_sprite_ext(self.sprite_index,0,x,y,1,1,0,c_black,alphaTeleport);
+    } else {
+        alphaTeleport = 1;
+        teleportColor = false; 
+    }
+    alphaTeleport -= 0.2;
+}
+
+
 </string>
           </argument>
         </arguments>
